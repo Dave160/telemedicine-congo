@@ -14,8 +14,11 @@ export default function DoctorTabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: 'Accueil', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>🏠</Text> }} />
       <Tabs.Screen name="appointments" options={{ title: 'Consultations', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>📅</Text> }} />
+      <Tabs.Screen name="patients" options={{ title: 'Patients', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>👥</Text> }} />
       <Tabs.Screen name="availabilities" options={{ title: 'Agenda', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>🗓️</Text> }} />
       <Tabs.Screen name="profile" options={{ title: 'Profil', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>👤</Text> }} />
+      {/* Hidden screens */}
+      <Tabs.Screen name="subscription" options={{ href: null }} />
     </Tabs>
   );
 }

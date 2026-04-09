@@ -14,6 +14,8 @@ export default function AdminTabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: 'Stats', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>📊</Text> }} />
       <Tabs.Screen name="doctors" options={{ title: 'Médecins', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>🩺</Text> }} />
+      <Tabs.Screen name="payments" options={{ title: 'Paiements', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>💰</Text> }} />
+      <Tabs.Screen name="articles" options={{ title: 'Articles', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>📰</Text> }} />
     </Tabs>
   );
 }

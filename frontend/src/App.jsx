@@ -26,13 +26,18 @@ import Prescriptions from './pages/patient/Prescriptions';
 // Doctor
 import DoctorDashboard from './pages/doctor/Dashboard';
 import DoctorAppointments from './pages/doctor/Appointments';
+import DoctorAppointmentDetail from './pages/doctor/AppointmentDetail';
 import DoctorAvailabilities from './pages/doctor/Availabilities';
 import DoctorSubscription from './pages/doctor/Subscription';
+import DoctorPatients from './pages/doctor/Patients';
+import DoctorEarnings from './pages/doctor/Earnings';
 
 // Admin
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminDoctors from './pages/admin/Doctors';
 import AdminArticles from './pages/admin/Articles';
+import AdminUsers from './pages/admin/Users';
+import AdminPayments from './pages/admin/Payments';
 
 // ─── Protected route ──────────────────────────────────────────────────────────
 
@@ -99,6 +104,9 @@ export default function App() {
         {/* Doctor */}
         <Route path="/doctor/dashboard" element={<ProtectedLayout roles={['DOCTOR']}><DoctorDashboard /></ProtectedLayout>} />
         <Route path="/doctor/appointments" element={<ProtectedLayout roles={['DOCTOR']}><DoctorAppointments /></ProtectedLayout>} />
+        <Route path="/appointments/:id" element={<ProtectedLayout><DoctorAppointmentDetail /></ProtectedLayout>} />
+        <Route path="/doctor/patients" element={<ProtectedLayout roles={['DOCTOR']}><DoctorPatients /></ProtectedLayout>} />
+        <Route path="/doctor/earnings" element={<ProtectedLayout roles={['DOCTOR']}><DoctorEarnings /></ProtectedLayout>} />
         <Route path="/doctor/availabilities" element={<ProtectedLayout roles={['DOCTOR']}><DoctorAvailabilities /></ProtectedLayout>} />
         <Route path="/doctor/subscription" element={<ProtectedLayout roles={['DOCTOR']}><DoctorSubscription /></ProtectedLayout>} />
         <Route path="/doctor/profile" element={<ProtectedLayout roles={['DOCTOR']}><Profile /></ProtectedLayout>} />
@@ -106,6 +114,8 @@ export default function App() {
         {/* Admin */}
         <Route path="/admin/dashboard" element={<ProtectedLayout roles={['ADMIN']}><AdminDashboard /></ProtectedLayout>} />
         <Route path="/admin/doctors" element={<ProtectedLayout roles={['ADMIN']}><AdminDoctors /></ProtectedLayout>} />
+        <Route path="/admin/users" element={<ProtectedLayout roles={['ADMIN']}><AdminUsers /></ProtectedLayout>} />
+        <Route path="/admin/payments" element={<ProtectedLayout roles={['ADMIN']}><AdminPayments /></ProtectedLayout>} />
         <Route path="/admin/articles" element={<ProtectedLayout roles={['ADMIN']}><AdminArticles /></ProtectedLayout>} />
 
         {/* Catch all */}
