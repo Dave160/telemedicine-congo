@@ -28,6 +28,9 @@ export default function PatientTabsLayout() {
         name="profile"
         options={{ title: 'Profil', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>👤</Text> }}
       />
+      {/* Hidden screens — accessible via router.push but not shown in tab bar */}
+      <Tabs.Screen name="prescriptions" options={{ href: null }} />
+      <Tabs.Screen name="doctor" options={{ href: null }} />
     </Tabs>
   );
 }
