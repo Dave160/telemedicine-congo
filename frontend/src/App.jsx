@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
 import Chat from './pages/Chat';
 import { ArticlesList, ArticleDetail } from './pages/Articles';
+import Conversations from './pages/Conversations';
 
 // Patient
 import PatientDashboard from './pages/patient/Dashboard';
@@ -88,7 +89,7 @@ export default function App() {
         {/* Shared */}
         <Route path="/notifications" element={<ProtectedLayout><Notifications /></ProtectedLayout>} />
         <Route path="/chat/:conversationId" element={<Protected><Chat /></Protected>} />
-        <Route path="/conversations" element={<ProtectedLayout><div className="p-4 text-gray-500">Sélectionnez une consultation pour chatter</div></ProtectedLayout>} />
+        <Route path="/conversations" element={<ProtectedLayout><Conversations /></ProtectedLayout>} />
         <Route path="/profile" element={<ProtectedLayout><Profile /></ProtectedLayout>} />
         <Route path="/articles" element={<ProtectedLayout><ArticlesList /></ProtectedLayout>} />
         <Route path="/articles/:id" element={<ProtectedLayout><ArticleDetail /></ProtectedLayout>} />
