@@ -1,0 +1,267 @@
+// Prisma Schema — Telemedicine Congo Brazzaville
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum Role {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum AppointmentType {
+  IMMEDIATE
+  SCHEDULED
+  PHYSICAL
+}
+
+enum ConsultationType {
+  CHAT
+  AUDIO
+  VIDEO
+  PHYSICAL
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  MTN_MONEY
+  AIRTEL_MONEY
+  CARD
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  PRESCRIPTION
+}
+
+enum DeliveryMethod {
+  APP
+  SMS
+  WHATSAPP
+}
+
+// ─── Models ─────────────────────────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(uuid())
+  phone        String    @unique
+  email        String?   @unique
+  passwordHash String
+  role         Role      @default(PATIENT)
+  otp          String?
+  otpExpires   DateTime?
+  isVerified   Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  patient       Patient?
+  doctor        Doctor?
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Patient {
+  id            String    @id @default(uuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nom           String
+  prenom        String
+  dateNaissance DateTime?
+  sexe          String?
+  adresse       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  appointments  Appointment[]
+  conversations Conversation[]
+
+  @@map("patients")
+}
+
+model Doctor {
+  id                 String   @id @default(uuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nom                String
+  prenom             String
+  specialite         String
+  tarif              Float
+  description        String?
+  bio                String?
+  photo              String?
+  isVerified         Boolean  @default(false)
+  isAvailableNow     Boolean  @default(false)
+  subscriptionActive Boolean  @default(false)
+  subscriptionEnd    DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  appointments    Appointment[]
+  availabilities  Availability[]
+  conversations   Conversation[]
+  subscriptions   DoctorSubscription[]
+
+  @@map("doctors")
+}
+
+model Availability {
+  id           String    @id @default(uuid())
+  doctorId     String
+  doctor       Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  dayOfWeek    Int?      // 0=Dim, 1=Lun, ... 6=Sam (null si date spécifique)
+  specificDate DateTime? // Pour des jours spécifiques
+  startTime    String    // "08:00"
+  endTime      String    // "17:00"
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+
+  @@map("availabilities")
+}
+
+model Appointment {
+  id               String            @id @default(uuid())
+  patientId        String
+  patient          Patient           @relation(fields: [patientId], references: [id])
+  doctorId         String
+  doctor           Doctor            @relation(fields: [doctorId], references: [id])
+  type             AppointmentType
+  consultationType ConsultationType  @default(CHAT)
+  status           AppointmentStatus @default(PENDING)
+  scheduledAt      DateTime?
+  startedAt        DateTime?
+  completedAt      DateTime?
+  notes            String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  payment       Payment?
+  conversation  Conversation?
+  prescriptions Prescription[]
+
+  @@map("appointments")
+}
+
+model Conversation {
+  id            String   @id @default(uuid())
+  patientId     String
+  patient       Patient  @relation(fields: [patientId], references: [id])
+  doctorId      String
+  doctor        Doctor   @relation(fields: [doctorId], references: [id])
+  appointmentId String?  @unique
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  createdAt     DateTime @default(now())
+
+  messages Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String      @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String      // userId
+  content        String
+  type           MessageType @default(TEXT)
+  fileUrl        String?
+  isRead         Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+
+  @@map("messages")
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  appointmentId String        @unique
+  appointment   Appointment   @relation(fields: [appointmentId], references: [id])
+  amount        Float         // Total FCFA
+  platformFee   Float         // Part plateforme
+  doctorAmount  Float         // Part médecin
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  transactionId String?
+  phoneNumber   String?       // Numéro Mobile Money
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("payments")
+}
+
+model Prescription {
+  id             String         @id @default(uuid())
+  appointmentId  String
+  appointment    Appointment    @relation(fields: [appointmentId], references: [id])
+  content        String         // Texte ordonnance
+  pdfUrl         String?        // URL Cloudinary
+  deliveryMethod DeliveryMethod @default(APP)
+  sentAt         DateTime?
+  createdAt      DateTime       @default(now())
+
+  @@map("prescriptions")
+}
+
+model Article {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  category    String
+  imageUrl    String?
+  publishedBy String   // userId admin
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("articles")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
+model DoctorSubscription {
+  id            String        @id @default(uuid())
+  doctorId      String
+  doctor        Doctor        @relation(fields: [doctorId], references: [id])
+  startDate     DateTime
+  endDate       DateTime
+  amount        Float         @default(20000)
+  status        PaymentStatus @default(PENDING)
+  transactionId String?
+  createdAt     DateTime      @default(now())
+
+  @@map("doctor_subscriptions")
+}

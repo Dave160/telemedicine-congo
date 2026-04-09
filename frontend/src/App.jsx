@@ -1,0 +1,116 @@
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import useAuthStore from './stores/authStore';
+import LoadingScreen from './components/common/LoadingScreen';
+import Layout from './components/common/Layout';
+
+// Auth
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import VerifyOTP from './pages/auth/VerifyOTP';
+
+// Shared
+import Profile from './pages/Profile';
+import Notifications from './pages/Notifications';
+import Chat from './pages/Chat';
+import { ArticlesList, ArticleDetail } from './pages/Articles';
+
+// Patient
+import PatientDashboard from './pages/patient/Dashboard';
+import Doctors from './pages/patient/Doctors';
+import DoctorProfile from './pages/patient/DoctorProfile';
+import BookAppointment from './pages/patient/BookAppointment';
+import PatientAppointments from './pages/patient/Appointments';
+import Prescriptions from './pages/patient/Prescriptions';
+
+// Doctor
+import DoctorDashboard from './pages/doctor/Dashboard';
+import DoctorAppointments from './pages/doctor/Appointments';
+import DoctorAvailabilities from './pages/doctor/Availabilities';
+import DoctorSubscription from './pages/doctor/Subscription';
+
+// Admin
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminDoctors from './pages/admin/Doctors';
+import AdminArticles from './pages/admin/Articles';
+
+// ─── Protected route ──────────────────────────────────────────────────────────
+
+function Protected({ children, roles }) {
+  const { user, isAuthenticated, loading } = useAuthStore();
+  if (loading) return <LoadingScreen />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (roles && !roles.includes(user?.role)) return <Navigate to="/" replace />;
+  return children;
+}
+
+function ProtectedLayout({ children, roles }) {
+  return (
+    <Protected roles={roles}>
+      <Layout>{children}</Layout>
+    </Protected>
+  );
+}
+
+// ─── Role-based redirect ──────────────────────────────────────────────────────
+
+function HomeRedirect() {
+  const { user, isAuthenticated, loading } = useAuthStore();
+  if (loading) return <LoadingScreen />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (user?.role === 'ADMIN') return <Navigate to="/admin/dashboard" replace />;
+  if (user?.role === 'DOCTOR') return <Navigate to="/doctor/dashboard" replace />;
+  return <Navigate to="/dashboard" replace />;
+}
+
+// ─── App ─────────────────────────────────────────────────────────────────────
+
+export default function App() {
+  const { init } = useAuthStore();
+  useEffect(() => { init(); }, []);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Root redirect */}
+        <Route path="/" element={<HomeRedirect />} />
+
+        {/* Auth (public) */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+
+        {/* Shared */}
+        <Route path="/notifications" element={<ProtectedLayout><Notifications /></ProtectedLayout>} />
+        <Route path="/chat/:conversationId" element={<Protected><Chat /></Protected>} />
+        <Route path="/conversations" element={<ProtectedLayout><div className="p-4 text-gray-500">Sélectionnez une consultation pour chatter</div></ProtectedLayout>} />
+        <Route path="/profile" element={<ProtectedLayout><Profile /></ProtectedLayout>} />
+        <Route path="/articles" element={<ProtectedLayout><ArticlesList /></ProtectedLayout>} />
+        <Route path="/articles/:id" element={<ProtectedLayout><ArticleDetail /></ProtectedLayout>} />
+
+        {/* Patient */}
+        <Route path="/dashboard" element={<ProtectedLayout roles={['PATIENT']}><PatientDashboard /></ProtectedLayout>} />
+        <Route path="/doctors" element={<ProtectedLayout roles={['PATIENT']}><Doctors /></ProtectedLayout>} />
+        <Route path="/doctors/:id" element={<ProtectedLayout roles={['PATIENT']}><DoctorProfile /></ProtectedLayout>} />
+        <Route path="/book/:doctorId" element={<Protected roles={['PATIENT']}><BookAppointment /></Protected>} />
+        <Route path="/appointments" element={<ProtectedLayout roles={['PATIENT']}><PatientAppointments /></ProtectedLayout>} />
+        <Route path="/prescriptions" element={<ProtectedLayout roles={['PATIENT']}><Prescriptions /></ProtectedLayout>} />
+
+        {/* Doctor */}
+        <Route path="/doctor/dashboard" element={<ProtectedLayout roles={['DOCTOR']}><DoctorDashboard /></ProtectedLayout>} />
+        <Route path="/doctor/appointments" element={<ProtectedLayout roles={['DOCTOR']}><DoctorAppointments /></ProtectedLayout>} />
+        <Route path="/doctor/availabilities" element={<ProtectedLayout roles={['DOCTOR']}><DoctorAvailabilities /></ProtectedLayout>} />
+        <Route path="/doctor/subscription" element={<ProtectedLayout roles={['DOCTOR']}><DoctorSubscription /></ProtectedLayout>} />
+        <Route path="/doctor/profile" element={<ProtectedLayout roles={['DOCTOR']}><Profile /></ProtectedLayout>} />
+
+        {/* Admin */}
+        <Route path="/admin/dashboard" element={<ProtectedLayout roles={['ADMIN']}><AdminDashboard /></ProtectedLayout>} />
+        <Route path="/admin/doctors" element={<ProtectedLayout roles={['ADMIN']}><AdminDoctors /></ProtectedLayout>} />
+        <Route path="/admin/articles" element={<ProtectedLayout roles={['ADMIN']}><AdminArticles /></ProtectedLayout>} />
+
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
