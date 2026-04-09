@@ -51,11 +51,17 @@ export default function DoctorHome() {
         {/* Header */}
         <View style={{ backgroundColor: '#1a73e8', padding: 20, paddingBottom: 24 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <View>
+            <View style={{ flex: 1 }}>
               <Text style={{ color: '#b3d1ff', fontSize: 13 }}>Bienvenue,</Text>
               <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Dr {doctor?.prenom} {doctor?.nom}</Text>
               <Text style={{ color: '#b3d1ff', fontSize: 13 }}>{doctor?.specialite}</Text>
             </View>
+            <TouchableOpacity
+              onPress={() => router.push('/notifications')}
+              style={{ padding: 8, marginRight: 4 }}
+            >
+              <Text style={{ fontSize: 22 }}>🔔</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={toggleOnline}
               disabled={toggling}

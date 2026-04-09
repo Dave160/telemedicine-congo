@@ -36,10 +36,17 @@ export default function PatientHome() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Hero */}
         <View style={{ backgroundColor: '#1a73e8', padding: 20, paddingBottom: 28 }}>
-          <Text style={{ color: '#b3d1ff', fontSize: 13 }}>Bonjour,</Text>
-          <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', marginTop: 2 }}>
-            {patient?.prenom || 'Bienvenue'} 👋
-          </Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <View>
+              <Text style={{ color: '#b3d1ff', fontSize: 13 }}>Bonjour,</Text>
+              <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', marginTop: 2 }}>
+                {patient?.prenom || 'Bienvenue'} 👋
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => router.push('/notifications')} style={{ padding: 8 }}>
+              <Text style={{ fontSize: 22 }}>🔔</Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
             onPress={() => router.push('/patient/doctors')}
             style={{ backgroundColor: '#fff', borderRadius: 12, paddingVertical: 12, marginTop: 16, alignItems: 'center' }}

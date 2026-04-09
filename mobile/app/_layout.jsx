@@ -40,6 +40,7 @@ export default function RootLayout() {
         <Stack.Screen name="appointments/[id]" options={{ presentation: 'card' }} />
         <Stack.Screen name="articles/index" options={{ presentation: 'card' }} />
         <Stack.Screen name="conversations/index" options={{ presentation: 'card' }} />
+        <Stack.Screen name="notifications/index" options={{ presentation: 'card' }} />
       </Stack>
     </>
   );

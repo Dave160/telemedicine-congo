@@ -26,7 +26,7 @@ import Prescriptions from './pages/patient/Prescriptions';
 // Doctor
 import DoctorDashboard from './pages/doctor/Dashboard';
 import DoctorAppointments from './pages/doctor/Appointments';
-import DoctorAppointmentDetail from './pages/doctor/AppointmentDetail';
+import AppointmentDetail from './pages/doctor/AppointmentDetail';
 import DoctorAvailabilities from './pages/doctor/Availabilities';
 import DoctorSubscription from './pages/doctor/Subscription';
 import DoctorPatients from './pages/doctor/Patients';
@@ -104,7 +104,7 @@ export default function App() {
         {/* Doctor */}
         <Route path="/doctor/dashboard" element={<ProtectedLayout roles={['DOCTOR']}><DoctorDashboard /></ProtectedLayout>} />
         <Route path="/doctor/appointments" element={<ProtectedLayout roles={['DOCTOR']}><DoctorAppointments /></ProtectedLayout>} />
-        <Route path="/appointments/:id" element={<ProtectedLayout><DoctorAppointmentDetail /></ProtectedLayout>} />
+        <Route path="/appointments/:id" element={<ProtectedLayout><AppointmentDetail /></ProtectedLayout>} />
         <Route path="/doctor/patients" element={<ProtectedLayout roles={['DOCTOR']}><DoctorPatients /></ProtectedLayout>} />
         <Route path="/doctor/earnings" element={<ProtectedLayout roles={['DOCTOR']}><DoctorEarnings /></ProtectedLayout>} />
         <Route path="/doctor/availabilities" element={<ProtectedLayout roles={['DOCTOR']}><DoctorAvailabilities /></ProtectedLayout>} />

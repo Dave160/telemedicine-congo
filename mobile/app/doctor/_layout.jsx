@@ -19,6 +19,7 @@ export default function DoctorTabsLayout() {
       <Tabs.Screen name="profile" options={{ title: 'Profil', tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>👤</Text> }} />
       {/* Hidden screens */}
       <Tabs.Screen name="subscription" options={{ href: null }} />
+      <Tabs.Screen name="earnings" options={{ href: null }} />
     </Tabs>
   );
 }

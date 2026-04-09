@@ -4,13 +4,16 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
+import useAuthStore from '../../stores/authStore';
 
 const STATUS_COLORS = { PENDING: 'bg-yellow-100 text-yellow-700', CONFIRMED: 'bg-blue-100 text-blue-700', COMPLETED: 'bg-gray-100 text-gray-600', CANCELLED: 'bg-red-100 text-red-600', IN_PROGRESS: 'bg-green-100 text-green-700' };
 const STATUS_LABELS = { PENDING: 'En attente', CONFIRMED: 'Confirmé', COMPLETED: 'Terminé', CANCELLED: 'Annulé', IN_PROGRESS: 'En cours' };
 
-export default function DoctorAppointmentDetail() {
+export default function AppointmentDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuthStore();
+  const isDoctor = user?.role === 'DOCTOR';
   const [appointment, setAppointment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
@@ -59,8 +62,10 @@ export default function DoctorAppointmentDetail() {
   if (loading) return <div className="p-4 text-center text-gray-400">Chargement...</div>;
   if (!appointment) return <div className="p-4 text-center text-gray-400">Introuvable</div>;
 
-  const patient = appointment.patient;
-  const patientName = `${patient?.prenom || ''} ${patient?.nom || ''}`.trim();
+  const otherName = isDoctor
+    ? `${appointment.patient?.prenom || ''} ${appointment.patient?.nom || ''}`.trim() || 'Patient'
+    : `Dr ${appointment.doctor?.prenom || ''} ${appointment.doctor?.nom || ''}`.trim();
+  const otherIcon = isDoctor ? '👤' : '👨‍⚕️';
 
   return (
     <div className="p-4 space-y-4 pb-8">
@@ -69,13 +74,14 @@ export default function DoctorAppointmentDetail() {
         ← Retour
       </button>
 
-      {/* Patient card */}
+      {/* Contact card */}
       <div className="card">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center text-2xl">👤</div>
+            <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center text-2xl">{otherIcon}</div>
             <div>
-              <p className="font-bold text-gray-900">{patientName || 'Patient'}</p>
+              <p className="font-bold text-gray-900">{otherName}</p>
+              {!isDoctor && <p className="text-xs text-gray-500">{appointment.doctor?.specialite}</p>}
               <p className="text-xs text-gray-400">{appointment.type === 'IMMEDIATE' ? '⚡ Immédiate' : appointment.type === 'SCHEDULED' ? '📅 Planifiée' : '🏥 Physique'} · {appointment.consultationType}</p>
             </div>
           </div>
@@ -102,10 +108,12 @@ export default function DoctorAppointmentDetail() {
             <span className="text-gray-500">Montant</span>
             <span className="font-semibold">{appointment.payment.amount?.toLocaleString()} FCFA</span>
           </div>
-          <div className="flex justify-between text-sm mt-1">
-            <span className="text-gray-500">Votre part</span>
-            <span className="font-semibold text-green-600">{appointment.payment.doctorAmount?.toLocaleString()} FCFA</span>
-          </div>
+          {isDoctor && (
+            <div className="flex justify-between text-sm mt-1">
+              <span className="text-gray-500">Votre part</span>
+              <span className="font-semibold text-green-600">{appointment.payment.doctorAmount?.toLocaleString()} FCFA</span>
+            </div>
+          )}
           <div className="flex justify-between text-sm mt-1">
             <span className="text-gray-500">Méthode</span>
             <span>{appointment.payment.method === 'MTN_MONEY' ? '📱 MTN Money' : '📱 Airtel Money'}</span>
@@ -118,7 +126,8 @@ export default function DoctorAppointmentDetail() {
 
       {/* Actions */}
       <div className="space-y-2">
-        {appointment.status === 'PENDING' && (
+        {/* Doctor-only: confirm/refuse pending */}
+        {isDoctor && appointment.status === 'PENDING' && (
           <div className="flex gap-2">
             <button
               onClick={() => doAction('confirm')}
@@ -137,6 +146,17 @@ export default function DoctorAppointmentDetail() {
           </div>
         )}
 
+        {/* Patient-only: cancel pending */}
+        {!isDoctor && appointment.status === 'PENDING' && (
+          <button
+            onClick={() => doAction('cancel')}
+            disabled={acting}
+            className="w-full border border-red-200 text-red-500 font-semibold py-3 rounded-xl text-sm disabled:opacity-60"
+          >
+            Annuler le rendez-vous
+          </button>
+        )}
+
         {(appointment.status === 'CONFIRMED' || appointment.status === 'IN_PROGRESS') && (
           <>
             {appointment.conversation?.id && (
@@ -147,19 +167,24 @@ export default function DoctorAppointmentDetail() {
                 <span>💬</span> Ouvrir le chat
               </Link>
             )}
-            <button
-              onClick={() => setShowPrescForm(true)}
-              className="w-full bg-purple-100 text-purple-700 font-semibold py-3 rounded-xl text-sm"
-            >
-              📋 Rédiger une ordonnance
-            </button>
-            <button
-              onClick={() => doAction('complete')}
-              disabled={acting}
-              className="w-full bg-gray-100 text-gray-700 font-semibold py-3 rounded-xl text-sm disabled:opacity-60"
-            >
-              ✓ Marquer comme terminé
-            </button>
+            {/* Doctor-only: write prescription + mark complete */}
+            {isDoctor && (
+              <>
+                <button
+                  onClick={() => setShowPrescForm(true)}
+                  className="w-full bg-purple-100 text-purple-700 font-semibold py-3 rounded-xl text-sm"
+                >
+                  📋 Rédiger une ordonnance
+                </button>
+                <button
+                  onClick={() => doAction('complete')}
+                  disabled={acting}
+                  className="w-full bg-gray-100 text-gray-700 font-semibold py-3 rounded-xl text-sm disabled:opacity-60"
+                >
+                  ✓ Marquer comme terminé
+                </button>
+              </>
+            )}
           </>
         )}
       </div>
