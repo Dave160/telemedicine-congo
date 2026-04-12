@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "description": "Plateforme de téléconsultation médicale – Congo Brazzaville",
-  "workspaces": ["backend", "frontend", "mobile"],
   "scripts": {
     "backend": "cd backend && npm run dev",
     "frontend": "cd frontend && npm run dev",
     "mobile": "cd mobile && npm start",
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ../mobile && npm install",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install && cd ../mobile && npm install --legacy-peer-deps",
     "db:migrate": "cd backend && npm run db:migrate",
     "db:seed": "cd backend && npm run db:seed",
     "db:generate": "cd backend && npm run db:generate"
