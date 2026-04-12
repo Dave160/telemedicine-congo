@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { format, addDays, isToday, isTomorrow, startOfMonth, endOfMonth,
-         eachDayOfInterval, getDay, isSameDay, addMonths, subMonths } from 'date-fns';
+import {
+  format, addDays, isToday, isTomorrow, startOfMonth, endOfMonth,
+  eachDayOfInterval, getDay, isSameDay, addMonths, subMonths,
+} from 'date-fns';
 import { fr } from 'date-fns/locale';
+import {
+  ChevronLeft, ChevronRight, X, MapPin, Heart,
+  ArrowUpDown, SlidersHorizontal, CalendarDays, Users,
+} from 'lucide-react';
 import api from '../../services/api';
 
 const TIME_SLOTS = [
@@ -11,30 +17,32 @@ const TIME_SLOTS = [
 ];
 
 function dateLabel(date) {
-  if (isToday(date))    return `Aujourd'hui : ${format(date, 'EEEE d MMMM yyyy', { locale: fr })}`;
-  if (isTomorrow(date)) return `Demain : ${format(date, 'EEEE d MMMM yyyy', { locale: fr })}`;
+  if (isToday(date))    return `Aujourd'hui · ${format(date, 'EEEE d MMMM yyyy', { locale: fr })}`;
+  if (isTomorrow(date)) return `Demain · ${format(date, 'EEEE d MMMM yyyy', { locale: fr })}`;
   return format(date, 'EEEE d MMMM yyyy', { locale: fr });
 }
 
-/* ──────────────────────── Carte médecin ──────────────────────── */
+/* ── Carte médecin ──────────────────────────────────────────────── */
 function DoctorCard({ doctor, onSlotClick }) {
   const [expanded, setExpanded] = useState(false);
   const [liked, setLiked] = useState(false);
-  const slots = TIME_SLOTS.slice(0, expanded ? 12 : 4);
+  const visibleSlots = expanded ? TIME_SLOTS.slice(0, 12) : TIME_SLOTS.slice(0, 4);
 
   return (
     <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border overflow-hidden mb-3">
       <div className="p-4">
         <div className="flex items-start gap-3">
+          {/* Avatar rond */}
           {doctor.photo ? (
-            <img src={doctor.photo} alt="" className="w-14 h-14 rounded-xl object-cover flex-shrink-0" />
+            <img src={doctor.photo} alt="" className="w-14 h-14 rounded-full object-cover flex-shrink-0" />
           ) : (
-            <div className="w-14 h-14 rounded-xl bg-primary-500/10 flex items-center justify-center flex-shrink-0">
-              <svg viewBox="0 0 40 40" fill="#22c55e" className="w-9 h-9 opacity-60">
+            <div className="w-14 h-14 rounded-full bg-primary-500/10 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 40 40" fill="#2db87a" className="w-8 h-8 opacity-70">
                 <path d="M20 4C11.163 4 4 11.163 4 20s7.163 16 16 16 16-7.163 16-16S28.837 4 20 4zm-2 22h-4V14h4v12zm8 0h-4V14h4v12z"/>
               </svg>
             </div>
           )}
+
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
@@ -45,14 +53,21 @@ function DoctorCard({ doctor, onSlotClick }) {
                   {doctor.experience ? `${doctor.experience} ans d'expérience` : doctor.specialite}
                 </p>
               </div>
-              <button onClick={() => setLiked(!liked)} className="p-1 flex-shrink-0">
-                <svg viewBox="0 0 24 24" fill={liked ? '#22c55e' : 'none'} stroke={liked ? '#22c55e' : '#9ca3af'} strokeWidth="2" className="w-5 h-5">
-                  <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
-                </svg>
+              <button
+                onClick={() => setLiked(!liked)}
+                className="p-1.5 rounded-full flex-shrink-0 active:scale-90 transition-transform"
+              >
+                <Heart
+                  size={20}
+                  color={liked ? '#ef4444' : '#9ca3af'}
+                  fill={liked ? '#ef4444' : 'none'}
+                  strokeWidth={2}
+                />
               </button>
             </div>
+
             {doctor.description && (
-              <p className="text-xs text-gray-500 dark:text-dark-muted mt-2 line-clamp-2">{doctor.description}</p>
+              <p className="text-xs text-gray-500 dark:text-dark-muted mt-1.5 line-clamp-2">{doctor.description}</p>
             )}
             <p className="text-sm font-bold text-primary-500 mt-2">
               {doctor.tarif?.toLocaleString('fr-FR')} FCFA
@@ -64,19 +79,17 @@ function DoctorCard({ doctor, onSlotClick }) {
       {/* Clinique + créneaux */}
       <div className="border-t border-gray-100 dark:border-dark-border px-4 py-3">
         <div className="flex items-center gap-1.5 mb-2.5">
-          <svg viewBox="0 0 24 24" fill="#22c55e" className="w-3.5 h-3.5 flex-shrink-0">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-          </svg>
+          <MapPin size={13} color="#2db87a" strokeWidth={2} />
           <span className="text-xs text-gray-600 dark:text-gray-300 truncate">
             {doctor.clinique || 'Clinique TéléMéd Congo'}
           </span>
         </div>
         <div className="flex flex-wrap gap-2">
-          {slots.map((slot) => (
+          {visibleSlots.map((slot) => (
             <button
               key={slot}
               onClick={() => onSlotClick(doctor, slot)}
-              className="px-3 py-1.5 bg-gray-100 dark:bg-dark-border rounded-xl text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-primary-500 hover:text-white transition-colors"
+              className="px-3 py-1.5 bg-gray-100 dark:bg-dark-border rounded-pill text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-primary-500 hover:text-white transition-colors"
             >
               {slot}
             </button>
@@ -87,9 +100,7 @@ function DoctorCard({ doctor, onSlotClick }) {
             onClick={() => setExpanded(true)}
             className="w-full flex items-center justify-center gap-1 mt-2 text-xs text-primary-500 font-medium py-1"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
-              <path strokeLinecap="round" d="M19 9l-7 7-7-7"/>
-            </svg>
+            <ChevronRight size={14} />
             Voir plus de créneaux
           </button>
         )}
@@ -98,22 +109,20 @@ function DoctorCard({ doctor, onSlotClick }) {
   );
 }
 
-/* ──────────────────────── Modal confirmation slot ──────────────────────── */
+/* ── Modal confirmation slot ───────────────────────────────────── */
 function SlotModal({ doctor, slot, date, onClose, onConfirm }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60">
-      <div className="bg-white dark:bg-dark-card w-full max-w-md rounded-t-3xl p-5 pb-8">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 max-w-md mx-auto">
+      <div className="bg-white dark:bg-dark-card w-full rounded-t-3xl p-5 pb-8">
         <div className="flex items-center justify-between mb-4">
-          <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="#22c55e" className="w-6 h-6">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+          <div className="w-10 h-10 rounded-2xl bg-primary-500/10 flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="#2db87a" className="w-6 h-6">
+              <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 3a1 1 0 011 1v3h3a1 1 0 010 2h-3v3a1 1 0 01-2 0v-3H8a1 1 0 010-2h3V7a1 1 0 011-1z"/>
             </svg>
           </div>
           <h3 className="text-base font-bold text-gray-900 dark:text-white">Prise de rendez-vous</h3>
           <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-dark-border">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 text-gray-600 dark:text-gray-300">
-              <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+            <X size={16} color="#6b7280" strokeWidth={2} />
           </button>
         </div>
 
@@ -129,91 +138,80 @@ function SlotModal({ doctor, slot, date, onClose, onConfirm }) {
             </p>
           </div>
           <div className="bg-gray-50 dark:bg-dark-surface rounded-2xl p-3 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center flex-shrink-0">
-              <svg viewBox="0 0 40 40" fill="#22c55e" className="w-6 h-6 opacity-70">
+            <div className="w-11 h-11 rounded-full bg-primary-500/10 flex items-center justify-center flex-shrink-0">
+              <svg viewBox="0 0 40 40" fill="#2db87a" className="w-7 h-7 opacity-70">
                 <path d="M20 4C11.163 4 4 11.163 4 20s7.163 16 16 16 16-7.163 16-16S28.837 4 20 4zm-2 22h-4V14h4v12zm8 0h-4V14h4v12z"/>
               </svg>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-gray-400 dark:text-dark-muted">{doctor.specialite}</p>
-              <p className="text-sm font-bold text-gray-900 dark:text-white truncate">Dr {doctor.prenom} {doctor.nom}</p>
+              <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                Dr {doctor.prenom} {doctor.nom}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 px-1">
-            <svg viewBox="0 0 24 24" fill="#22c55e" className="w-4 h-4">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
-            <span className="text-sm text-gray-600 dark:text-gray-300">{doctor.clinique || 'Clinique TéléMéd Congo'}</span>
+          <div className="flex items-center gap-2 px-1">
+            <MapPin size={14} color="#2db87a" strokeWidth={2} />
+            <span className="text-sm text-gray-600 dark:text-gray-300">
+              {doctor.clinique || 'Clinique TéléMéd Congo'}
+            </span>
           </div>
         </div>
 
-        <button onClick={onConfirm} className="btn-primary flex items-center justify-center gap-2 mb-2">
-          <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5">
-            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-          </svg>
+        <button onClick={onConfirm} className="btn-primary mb-2">
+          <Users size={18} />
           Saisir mes informations
         </button>
         <p className="text-center text-xs text-gray-400 dark:text-dark-muted">
-          Coût préliminaire : <strong className="text-primary-500">{doctor.tarif?.toLocaleString('fr-FR')} FCFA</strong>
+          Coût préliminaire :{' '}
+          <strong className="text-primary-500">{doctor.tarif?.toLocaleString('fr-FR')} FCFA</strong>
         </p>
       </div>
     </div>
   );
 }
 
-/* ──────────────────────── Calendrier modal ──────────────────────── */
+/* ── Calendrier modal ──────────────────────────────────────────── */
 function CalendarModal({ selectedDate, onClose, onApply }) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [picked, setPicked] = useState(selectedDate);
-
-  const days = eachDayOfInterval({ start: startOfMonth(currentMonth), end: endOfMonth(currentMonth) });
-  const startWeekDay = getDay(startOfMonth(currentMonth)); // 0=Dim
-  const blanks = Array(startWeekDay === 0 ? 6 : startWeekDay - 1).fill(null);
   const DAYS_FR = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
+  const days = eachDayOfInterval({ start: startOfMonth(currentMonth), end: endOfMonth(currentMonth) });
+  const startWeekDay = getDay(startOfMonth(currentMonth));
+  const blanks = Array(startWeekDay === 0 ? 6 : startWeekDay - 1).fill(null);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60">
-      <div className="bg-white dark:bg-dark-card w-full max-w-md rounded-t-3xl p-5 pb-8">
-        {/* Header */}
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 max-w-md mx-auto">
+      <div className="bg-white dark:bg-dark-card w-full rounded-t-3xl p-5 pb-8">
         <div className="flex items-center justify-between mb-4">
-          <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="#22c55e" className="w-6 h-6">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-            </svg>
+          <div className="w-10 h-10 rounded-2xl bg-primary-500/10 flex items-center justify-center">
+            <CalendarDays size={22} color="#2db87a" strokeWidth={1.8} />
           </div>
           <h3 className="text-base font-bold text-gray-900 dark:text-white">Date du rendez-vous</h3>
           <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-dark-border">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 text-gray-600 dark:text-gray-300">
-              <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
+            <X size={16} color="#6b7280" strokeWidth={2} />
           </button>
         </div>
 
         {/* Navigation mois */}
         <div className="flex items-center justify-between mb-4 px-1">
-          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-border">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-gray-600 dark:text-gray-300">
-              <path strokeLinecap="round" d="M15 19l-7-7 7-7"/>
-            </svg>
+          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-dark-border">
+            <ChevronLeft size={20} color="#374151" strokeWidth={2} />
           </button>
-          <p className="font-semibold text-gray-900 dark:text-white capitalize">
+          <p className="font-bold text-gray-900 dark:text-white capitalize">
             {format(currentMonth, 'MMMM yyyy', { locale: fr })}
           </p>
-          <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-border">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-gray-600 dark:text-gray-300">
-              <path strokeLinecap="round" d="M9 18l6-6-6-6"/>
-            </svg>
+          <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-dark-border">
+            <ChevronRight size={20} color="#374151" strokeWidth={2} />
           </button>
         </div>
 
-        {/* En-têtes jours */}
         <div className="grid grid-cols-7 mb-1">
           {DAYS_FR.map((d) => (
-            <div key={d} className="text-center text-xs font-medium text-gray-400 dark:text-dark-muted py-1">{d}</div>
+            <div key={d} className="text-center text-xs font-semibold text-gray-400 dark:text-dark-muted py-1">{d}</div>
           ))}
         </div>
-
-        {/* Jours */}
         <div className="grid grid-cols-7 gap-1">
           {blanks.map((_, i) => <div key={`b${i}`} />)}
           {days.map((day) => {
@@ -225,7 +223,7 @@ function CalendarModal({ selectedDate, onClose, onApply }) {
                 key={day.toISOString()}
                 disabled={isPast}
                 onClick={() => setPicked(day)}
-                className={`h-9 w-full rounded-xl text-sm font-medium transition-colors ${
+                className={`h-9 w-full rounded-pill text-sm font-medium transition-colors ${
                   isPicked
                     ? 'bg-primary-500 text-white'
                     : isT
@@ -249,53 +247,47 @@ function CalendarModal({ selectedDate, onClose, onApply }) {
   );
 }
 
-/* ──────────────────────── Modal Filtres ──────────────────────── */
+/* ── Modal Filtres ─────────────────────────────────────────────── */
 function FilterModal({ onClose, onApply }) {
-  const [filters, setFilters] = useState({
-    clinique: 'Tous', medecin: 'Tous', date: 'Tous', diplome: 'Tous', sexe: 'Tous',
-  });
-
   const rows = [
-    { key: 'clinique', label: 'Clinique' },
-    { key: 'medecin', label: 'Médecin' },
-    { key: 'date',    label: 'Date de rendez-vous', icon: 'calendar' },
-    { key: 'diplome', label: 'Diplôme & catégorie spéciale' },
-    { key: 'sexe',    label: 'Sexe du médecin' },
+    { key: 'clinique', label: 'Clinique',               icon: <MapPin size={17} color="#2db87a" /> },
+    { key: 'medecin',  label: 'Médecin',                icon: <Users size={17} color="#2db87a" /> },
+    { key: 'date',     label: 'Date de rendez-vous',    icon: <CalendarDays size={17} color="#2db87a" /> },
+    { key: 'diplome',  label: 'Diplôme & catégorie',    icon: <SlidersHorizontal size={17} color="#2db87a" /> },
+    { key: 'sexe',     label: 'Sexe du médecin',        icon: <Users size={17} color="#2db87a" /> },
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-white dark:bg-dark-bg max-w-md mx-auto">
+    <div className="fixed inset-0 z-50 bg-white dark:bg-dark-bg flex flex-col max-w-md mx-auto">
       <div className="flex items-center gap-3 px-4 py-4 border-b border-gray-100 dark:border-dark-border">
-        <button onClick={onClose}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-gray-700 dark:text-white">
-            <path strokeLinecap="round" d="M15 19l-7-7 7-7"/>
-          </svg>
+        <button onClick={onClose} className="p-1.5">
+          <ChevronLeft size={22} color="#374151" className="dark:text-white" strokeWidth={2} />
         </button>
-        <h2 className="font-bold text-lg text-gray-900 dark:text-white">Filtre</h2>
+        <h2 className="font-bold text-lg text-gray-900 dark:text-white">Filtres</h2>
       </div>
 
       <div className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
         {rows.map((r) => (
-          <div key={r.key} className="bg-gray-50 dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border px-4 py-4 flex items-center justify-between">
-            <div>
-              <p className="text-xs text-gray-400 dark:text-dark-muted mb-0.5">{r.label}</p>
-              <p className="text-gray-900 dark:text-white font-bold text-sm">{filters[r.key]}</p>
+          <button
+            key={r.key}
+            className="w-full bg-gray-50 dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border px-4 py-4 flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-primary-500/10 flex items-center justify-center">
+                {r.icon}
+              </div>
+              <div className="text-left">
+                <p className="text-xs text-gray-400 dark:text-dark-muted">{r.label}</p>
+                <p className="text-gray-900 dark:text-white font-semibold text-sm">Tous</p>
+              </div>
             </div>
-            {r.icon === 'calendar' ? (
-              <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-5 h-5">
-                <rect x="3" y="4" width="18" height="18" rx="2"/><path strokeLinecap="round" d="M16 2v4M8 2v4M3 10h18"/>
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-5 h-5">
-                <path strokeLinecap="round" d="M9 18l6-6-6-6"/>
-              </svg>
-            )}
-          </div>
+            <ChevronRight size={17} color="#2db87a" strokeWidth={2} />
+          </button>
         ))}
       </div>
 
       <div className="px-4 pb-8 pt-2">
-        <button onClick={() => onApply(filters)} className="btn-primary">
+        <button onClick={() => onApply({})} className="btn-primary">
           Afficher les résultats
         </button>
       </div>
@@ -303,7 +295,7 @@ function FilterModal({ onClose, onApply }) {
   );
 }
 
-/* ──────────────────────── Page principale ──────────────────────── */
+/* ── Page principale ───────────────────────────────────────────── */
 export default function DoctorsBySpecialty() {
   const { specialite } = useParams();
   const navigate = useNavigate();
@@ -341,38 +333,30 @@ export default function DoctorsBySpecialty() {
 
   return (
     <div className="bg-gray-50 dark:bg-dark-bg min-h-full">
-      {/* Header spécialité */}
-      <div className="bg-primary-500 px-4 pt-3 pb-4">
+      {/* Header */}
+      <div className="header-gradient px-4 pt-3 pb-4">
         <div className="flex items-center gap-3 mb-3">
-          <button onClick={() => navigate(-1)} className="text-white">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="w-6 h-6">
-              <path strokeLinecap="round" d="M15 19l-7-7 7-7"/>
-            </svg>
+          <button onClick={() => navigate(-1)} className="p-1.5 rounded-xl bg-white/20">
+            <ChevronLeft size={22} color="white" strokeWidth={2} />
           </button>
           <h1 className="text-white font-bold text-base flex-1 text-center">{decodedSpecialite}</h1>
-          <div className="w-6" />
+          <div className="w-9" />
         </div>
         <div className="flex gap-2">
           <button
             onClick={() => setShowCalendar(true)}
-            className={`flex-1 flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-medium transition-colors ${
-              filterDate
-                ? 'bg-white text-primary-500'
-                : 'bg-white/20 text-white'
+            className={`flex-1 flex items-center justify-center gap-2 rounded-pill py-2.5 text-sm font-semibold transition-colors ${
+              filterDate ? 'bg-white text-primary-500' : 'bg-white/20 text-white'
             }`}
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
-              <rect x="3" y="4" width="18" height="18" rx="2"/><path strokeLinecap="round" d="M16 2v4M8 2v4M3 10h18"/>
-            </svg>
-            {filterDate ? format(filterDate, 'd MMM', { locale: fr }) : 'Date du rendez-vous'}
+            <ArrowUpDown size={15} strokeWidth={2} />
+            {filterDate ? format(filterDate, 'd MMM', { locale: fr }) : 'Date du RDV'}
           </button>
           <button
             onClick={() => setShowFilters(true)}
-            className="flex-1 flex items-center justify-center gap-2 bg-white/20 rounded-xl py-2.5 text-white text-sm font-medium"
+            className="flex-1 flex items-center justify-center gap-2 bg-white/20 rounded-pill py-2.5 text-white text-sm font-semibold"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="w-4 h-4">
-              <path strokeLinecap="round" d="M4 6h16M7 12h10M10 18h4"/>
-            </svg>
+            <SlidersHorizontal size={15} strokeWidth={2} />
             Filtres
           </button>
         </div>
@@ -386,8 +370,10 @@ export default function DoctorsBySpecialty() {
         ) : (
           displayDates.map((date) => (
             <div key={date.toISOString()}>
-              <div className="bg-white dark:bg-dark-surface rounded-2xl px-4 py-3 mb-3 text-center">
-                <p className="font-bold text-gray-900 dark:text-white text-sm capitalize">
+              {/* Date group header */}
+              <div className="bg-dark-card dark:bg-dark-surface border border-primary-500/20 rounded-2xl px-4 py-3 mb-3 text-center">
+                <p className="font-bold text-white dark:text-white text-sm capitalize bg-transparent"
+                   style={{ color: '#2db87a' }}>
                   {dateLabel(date)}
                 </p>
               </div>
@@ -400,10 +386,7 @@ export default function DoctorsBySpecialty() {
                   <DoctorCard
                     key={`${doctor.id}-${date.toISOString()}`}
                     doctor={doctor}
-                    onSlotClick={(doc, slot) => {
-                      setSelectedDate(date);
-                      handleSlotClick(doc, slot);
-                    }}
+                    onSlotClick={(doc, slot) => { setSelectedDate(date); handleSlotClick(doc, slot); }}
                   />
                 ))
               )}
@@ -412,7 +395,6 @@ export default function DoctorsBySpecialty() {
         )}
       </div>
 
-      {/* Modal slot */}
       {selectedDoctor && selectedSlot && (
         <SlotModal
           doctor={selectedDoctor}
@@ -422,13 +404,7 @@ export default function DoctorsBySpecialty() {
           onConfirm={handleConfirmSlot}
         />
       )}
-
-      {/* Modal filtres */}
-      {showFilters && (
-        <FilterModal onClose={() => setShowFilters(false)} onApply={() => setShowFilters(false)} />
-      )}
-
-      {/* Modal calendrier */}
+      {showFilters && <FilterModal onClose={() => setShowFilters(false)} onApply={() => setShowFilters(false)} />}
       {showCalendar && (
         <CalendarModal
           selectedDate={filterDate || new Date()}

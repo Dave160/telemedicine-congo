@@ -1,27 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import {
+  MapPin, Bell, FlaskConical, CalendarDays, FileText,
+  ChevronRight, Search, Heart, Plus,
+} from 'lucide-react';
 import api from '../../services/api';
 import useAuthStore from '../../stores/authStore';
 
 const FAQS = [
-  { q: 'Comment prendre un rendez-vous en ligne ?' },
-  { q: 'Comment annuler ou reporter un rendez-vous ?' },
-  { q: 'Quels modes de paiement sont acceptés ?' },
-  { q: 'Comment accéder à mes ordonnances ?' },
-];
-
-const ACTIONS = [
-  { icon: '🧪', label: 'Analyses &\nExamens', path: '/analyses' },
-  { icon: '📅', label: 'Mes rendez-\nvous', path: '/appointments' },
-  { icon: '📋', label: 'Mes\nordonnances', path: '/prescriptions' },
-  { icon: '💬', label: 'Messages', path: '/conversations' },
+  'Comment prendre un rendez-vous en ligne ?',
+  'Comment annuler ou reporter un rendez-vous ?',
+  'Quels modes de paiement sont acceptés ?',
+  'Comment accéder à mes ordonnances ?',
 ];
 
 function generateCardNumber(userId) {
   const base = userId ? userId.substring(0, 8).toUpperCase().replace(/-/g, '') : 'TC000000';
-  return `TC${base.substring(0, 6)}`;
+  return `TC-${base.substring(0, 3)}-${base.substring(3, 6)}`;
 }
 
 export default function PatientDashboard() {
@@ -29,8 +26,6 @@ export default function PatientDashboard() {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const [carouselIdx, setCarouselIdx] = useState(0);
-  const carouselRef = useRef(null);
 
   const patient = user?.patient;
   const patientName = patient
@@ -43,69 +38,104 @@ export default function PatientDashboard() {
     api.get('/appointments?status=CONFIRMED&limit=3').then(({ data }) => setUpcomingAppointments(data.appointments || [])).catch(() => {});
   }, []);
 
+  const quickActions = [
+    {
+      icon: <FlaskConical size={24} color="#2db87a" strokeWidth={1.8} />,
+      label: 'Analyses &\nExamens',
+      path: '/analyses',
+      bg: 'bg-primary-500/10',
+    },
+    {
+      icon: <CalendarDays size={24} color="#2db87a" strokeWidth={1.8} />,
+      label: 'Mes rendez-\nvous',
+      path: '/appointments',
+      bg: 'bg-primary-500/10',
+    },
+    {
+      icon: <FileText size={24} color="#2db87a" strokeWidth={1.8} />,
+      label: 'Mes\nordonnances',
+      path: '/prescriptions',
+      bg: 'bg-primary-500/10',
+    },
+    {
+      icon: <Heart size={24} color="#ef4444" strokeWidth={1.8} />,
+      label: 'Mes\nfavoris',
+      path: '/medical-record',
+      bg: 'bg-red-500/10',
+    },
+  ];
+
   return (
     <div className="bg-gray-50 dark:bg-dark-bg min-h-full">
-      {/* ── Carte patient ──────────────────────────────────────── */}
-      <div className="bg-primary-500 px-4 pt-4 pb-6">
-        {/* Barre de recherche */}
-        <div className="flex items-center gap-2 mb-4">
-          <div
-            className="flex-1 flex items-center gap-2 bg-white dark:bg-dark-card rounded-xl px-3 py-2.5 cursor-pointer"
-            onClick={() => navigate('/doctors')}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" className="w-4 h-4">
-              <circle cx="11" cy="11" r="8"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/>
-            </svg>
-            <span className="text-gray-400 text-sm">Médecin, spécialité, service...</span>
-          </div>
-          <Link to="/prescriptions" className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5">
-              <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/>
-            </svg>
+      {/* ── Hero vert ──────────────────────────────────────── */}
+      <div className="header-gradient px-4 pt-3 pb-6 relative overflow-hidden">
+        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/10" />
+        <div className="absolute bottom-0 -left-8 w-24 h-24 rounded-full bg-white/10" />
+
+        {/* Ville + Cloche (row) */}
+        <div className="flex items-center justify-between mb-4 relative z-10">
+          <button className="flex items-center gap-1 text-white/80 text-sm">
+            <MapPin size={14} strokeWidth={2} />
+            <span>Brazzaville, Congo</span>
+            <ChevronRight size={14} strokeWidth={2} />
+          </button>
+          <Link to="/notifications" className="relative p-1.5 rounded-xl bg-white/15">
+            <Bell size={19} color="white" strokeWidth={1.8} />
           </Link>
         </div>
 
-        {/* Carte verte */}
-        <div className="bg-white/15 rounded-2xl p-4">
-          <p className="text-white font-bold text-base">{patientName}</p>
-          <div className="flex items-center justify-between mt-3">
+        {/* Barre de recherche */}
+        <div
+          className="flex items-center gap-2.5 bg-white/20 backdrop-blur-sm rounded-2xl px-3.5 py-3 mb-4 relative z-10 cursor-pointer"
+          onClick={() => navigate('/doctors')}
+        >
+          <Search size={17} color="white" strokeWidth={2} />
+          <span className="text-white/80 text-sm">Médecin, spécialité, service…</span>
+        </div>
+
+        {/* Carte patient */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 relative z-10">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-white/70 text-xs mb-0.5">Votre carte</p>
-              <div className="flex items-center gap-2">
-                <div className="bg-white/20 rounded px-2 py-1">
-                  <svg viewBox="0 0 60 20" className="w-10 h-4">
-                    {[0,4,8,12,16,20,24,28,32,36,40,44,48,52].map(x => (
-                      <rect key={x} x={x} y={2} width={2} height={16} fill="white" opacity={Math.random() > 0.4 ? 1 : 0.3}/>
-                    ))}
-                  </svg>
-                </div>
-                <span className="text-white font-mono text-sm font-bold">{cardNumber}</span>
-              </div>
+              <p className="text-white/70 text-xs mb-0.5">Votre carte santé</p>
+              <p className="text-white font-bold text-base">{patientName}</p>
+            </div>
+            <div className="w-9 h-9 rounded-xl bg-white/25 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5">
+                <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 3a1 1 0 011 1v3h3a1 1 0 010 2h-3v3a1 1 0 01-2 0v-3H8a1 1 0 010-2h3V7a1 1 0 011-1z"/>
+              </svg>
+            </div>
+          </div>
+          <div className="flex items-end justify-between mt-3">
+            <div>
+              <p className="text-white/60 text-[10px] mb-1">Numéro de carte</p>
+              <p className="text-white font-mono font-bold text-sm tracking-wider">{cardNumber}</p>
             </div>
             <div className="text-right">
-              <p className="text-white/70 text-xs">Consultations</p>
-              <p className="text-white font-bold text-lg">{upcomingAppointments.length}</p>
-              <p className="text-white/70 text-xs">à venir</p>
+              <p className="text-white font-bold text-xl">{upcomingAppointments.length}</p>
+              <p className="text-white/70 text-xs">RDV à venir</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="px-4 py-4 space-y-5">
-        {/* ── Actions rapides ──────────────────────────────────── */}
+      <div className="px-4 py-5 space-y-6">
+        {/* ── Actions rapides ──────────────────────────────── */}
         <div>
-          <p className="text-sm font-semibold text-gray-500 dark:text-dark-muted mb-3">Comment puis-je vous aider ?</p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-dark-muted uppercase tracking-wide mb-3">
+            Comment puis-je vous aider ?
+          </p>
           <div className="grid grid-cols-2 gap-3">
-            {ACTIONS.map((a) => (
+            {quickActions.map((a) => (
               <Link
                 key={a.path}
                 to={a.path}
-                className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2 hover:shadow-sm transition-shadow"
+                className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2.5 active:scale-95 transition-transform"
               >
-                <div className="w-11 h-11 rounded-full bg-primary-500/10 flex items-center justify-center text-xl">
+                <div className={`w-12 h-12 rounded-2xl ${a.bg} flex items-center justify-center`}>
                   {a.icon}
                 </div>
-                <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 text-center whitespace-pre-line leading-tight">
+                <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 text-center whitespace-pre-line leading-snug">
                   {a.label}
                 </span>
               </Link>
@@ -113,27 +143,27 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* ── Prendre RDV ────────────────────────────────────── */}
+        {/* ── Prendre RDV ──────────────────────────────────── */}
         <div>
-          <p className="text-sm font-semibold text-gray-500 dark:text-dark-muted mb-3">Prendre rendez-vous</p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-dark-muted uppercase tracking-wide mb-3">
+            Prendre rendez-vous
+          </p>
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => { sessionStorage.setItem('bookingForSelf', 'true'); navigate('/doctors'); }}
-              className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2 hover:shadow-sm transition-shadow"
+              className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2.5 active:scale-95 transition-transform"
             >
-              <div className="w-11 h-11 rounded-full bg-primary-500/10 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-6 h-6">
-                  <circle cx="12" cy="12" r="10"/><path strokeLinecap="round" d="M12 8v8M8 12h8"/>
-                </svg>
+              <div className="w-12 h-12 rounded-2xl bg-primary-500/10 flex items-center justify-center">
+                <Plus size={24} color="#2db87a" strokeWidth={2} />
               </div>
               <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 text-center">Me programmer</span>
             </button>
             <button
               onClick={() => { sessionStorage.setItem('bookingForSelf', 'false'); navigate('/doctors'); }}
-              className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2 hover:shadow-sm transition-shadow"
+              className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2.5 active:scale-95 transition-transform"
             >
-              <div className="w-11 h-11 rounded-full bg-primary-500/10 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-6 h-6">
+              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.8" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
               </div>
@@ -142,25 +172,29 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* ── Carrousel articles ────────────────────────────── */}
+        {/* ── Articles santé ───────────────────────────────── */}
         {articles.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-semibold text-gray-500 dark:text-dark-muted">Conseils santé</p>
-              <Link to="/articles" className="text-xs text-primary-500 font-semibold">Voir tout</Link>
+              <p className="text-xs font-semibold text-gray-500 dark:text-dark-muted uppercase tracking-wide">Conseils santé</p>
+              <Link to="/articles" className="text-xs text-primary-500 font-semibold flex items-center gap-1">
+                Voir tout <ChevronRight size={14} />
+              </Link>
             </div>
-            <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-none">
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none -mx-1 px-1">
               {articles.map((article) => (
                 <Link
                   key={article.id}
                   to={`/articles/${article.id}`}
-                  className="flex-shrink-0 w-44 bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border overflow-hidden"
+                  className="flex-shrink-0 w-44 bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border overflow-hidden active:scale-95 transition-transform"
                 >
                   {article.imageUrl ? (
                     <img src={article.imageUrl} alt={article.title} className="w-full h-24 object-cover" />
                   ) : (
-                    <div className="w-full h-24 bg-primary-500/10 flex items-center justify-center text-3xl">
-                      🏥
+                    <div className="w-full h-24 header-gradient flex items-center justify-center">
+                      <svg viewBox="0 0 24 24" fill="white" className="w-8 h-8 opacity-80">
+                        <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 3a1 1 0 011 1v3h3a1 1 0 010 2h-3v3a1 1 0 01-2 0v-3H8a1 1 0 010-2h3V7a1 1 0 011-1z"/>
+                      </svg>
                     </div>
                   )}
                   <div className="p-2.5">
@@ -174,22 +208,26 @@ export default function PatientDashboard() {
           </div>
         )}
 
-        {/* ── RDV à venir ───────────────────────────────────── */}
+        {/* ── RDV à venir ──────────────────────────────────── */}
         {upcomingAppointments.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-semibold text-gray-500 dark:text-dark-muted">Prochains rendez-vous</p>
-              <Link to="/appointments" className="text-xs text-primary-500 font-semibold">Voir tout</Link>
+              <p className="text-xs font-semibold text-gray-500 dark:text-dark-muted uppercase tracking-wide">Prochains rendez-vous</p>
+              <Link to="/appointments" className="text-xs text-primary-500 font-semibold flex items-center gap-1">
+                Voir tout <ChevronRight size={14} />
+              </Link>
             </div>
             <div className="space-y-2">
               {upcomingAppointments.map((appt) => (
                 <Link
                   key={appt.id}
                   to={`/appointments/${appt.id}`}
-                  className="flex items-center gap-3 bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-3"
+                  className="flex items-center gap-3 bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-3.5 active:scale-95 transition-transform"
                 >
-                  <div className="w-10 h-10 rounded-full bg-primary-500/10 flex items-center justify-center text-xl">
-                    👨‍⚕️
+                  <div className="w-11 h-11 rounded-2xl bg-primary-500/10 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2db87a" strokeWidth="1.8" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 3H7a2 2 0 00-2 2v4a6 6 0 0012 0V5a2 2 0 00-2-2h-2M9 3v2m6-2v2M12 16v2m0 0a3 3 0 103 3m-3-3a3 3 0 00-3 3"/>
+                    </svg>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
@@ -201,28 +239,23 @@ export default function PatientDashboard() {
                         : 'Sur demande'}
                     </p>
                   </div>
-                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary-500/10 text-primary-500">
-                    Confirmé
-                  </span>
+                  <span className="badge-confirmed">Confirmé</span>
                 </Link>
               ))}
             </div>
           </div>
         )}
 
-        {/* ── FAQ ───────────────────────────────────────────── */}
+        {/* ── FAQ ──────────────────────────────────────────── */}
         <div>
-          <p className="text-sm font-semibold text-gray-500 dark:text-dark-muted mb-3">Questions fréquentes</p>
+          <p className="text-xs font-semibold text-gray-500 dark:text-dark-muted uppercase tracking-wide mb-3">
+            Questions fréquentes
+          </p>
           <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border divide-y divide-gray-100 dark:divide-dark-border overflow-hidden">
-            {FAQS.map((faq, i) => (
-              <button
-                key={i}
-                className="w-full flex items-center justify-between px-4 py-3.5 text-left hover:bg-gray-50 dark:hover:bg-dark-border/30 transition-colors"
-              >
-                <span className="text-sm text-gray-700 dark:text-gray-200 pr-2">{faq.q}</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-4 h-4 flex-shrink-0">
-                  <path strokeLinecap="round" d="M9 18l6-6-6-6"/>
-                </svg>
+            {FAQS.map((q, i) => (
+              <button key={i} className="w-full flex items-center justify-between px-4 py-3.5 text-left active:bg-gray-50 dark:active:bg-dark-border/30 transition-colors">
+                <span className="text-sm text-gray-700 dark:text-gray-200 pr-2">{q}</span>
+                <ChevronRight size={16} color="#2db87a" strokeWidth={2} className="flex-shrink-0" />
               </button>
             ))}
             <button className="w-full px-4 py-3 text-center text-sm font-semibold text-primary-500">
@@ -231,9 +264,9 @@ export default function PatientDashboard() {
           </div>
         </div>
 
-        {/* ── Pied de page ──────────────────────────────────── */}
+        {/* Pied de page */}
         <div className="text-center pb-2">
-          <button className="text-sm text-primary-500 font-medium">
+          <button className="text-sm text-gray-400 dark:text-dark-muted">
             Politique de confidentialité
           </button>
         </div>

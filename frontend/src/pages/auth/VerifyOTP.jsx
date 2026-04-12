@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ShieldCheck, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
 import useAuthStore from '../../stores/authStore';
@@ -29,16 +30,13 @@ export default function VerifyOTP() {
   }
 
   function handleKeyDown(index, e) {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    }
+    if (e.key === 'Backspace' && !otp[index] && index > 0) inputRefs.current[index - 1]?.focus();
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const code = otp.join('');
     if (code.length !== 6) return toast.error('Entrez les 6 chiffres du code');
-
     setLoading(true);
     try {
       const { data } = await api.post('/auth/verify-otp', { phone, otp: code });
@@ -46,7 +44,6 @@ export default function VerifyOTP() {
       localStorage.setItem('refreshToken', data.refreshToken);
       await init();
       toast.success('Compte vérifié !');
-
       if (data.role === 'DOCTOR') navigate('/doctor/dashboard');
       else if (data.role === 'ADMIN') navigate('/admin/dashboard');
       else navigate('/dashboard');
@@ -64,23 +61,31 @@ export default function VerifyOTP() {
       toast.success('Nouveau code envoyé');
       if (data.devOtp) toast('Code de test : ' + data.devOtp, { icon: '🔑', duration: 10000 });
     } catch {
-      toast.error('Erreur lors de l\'envoi');
+      toast.error("Erreur lors de l'envoi");
     } finally {
       setResending(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 max-w-md mx-auto">
-      <div className="w-full">
-        <div className="text-center mb-8">
-          <div className="text-5xl mb-4">📱</div>
-          <h1 className="text-2xl font-bold text-gray-900">Vérification</h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            Entrez le code à 6 chiffres envoyé au<br />
-            <span className="font-semibold text-gray-700">{phone}</span>
-          </p>
+    <div className="min-h-screen flex flex-col max-w-md mx-auto">
+      {/* Splash vert */}
+      <div className="header-gradient px-6 pt-14 pb-14 flex flex-col items-center relative overflow-hidden">
+        <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full bg-white/10" />
+        <div className="w-20 h-20 rounded-3xl bg-white/25 flex items-center justify-center mb-4 shadow-lg relative z-10">
+          <ShieldCheck size={40} color="white" strokeWidth={1.5} />
         </div>
+        <h1 className="text-xl font-bold text-white relative z-10">Vérification</h1>
+        <p className="text-white/80 text-sm mt-1 relative z-10 text-center">
+          Code envoyé au<br/><span className="font-bold">{phone}</span>
+        </p>
+      </div>
+
+      {/* Formulaire */}
+      <div className="flex-1 bg-white dark:bg-dark-bg -mt-5 rounded-t-3xl px-6 pt-8 pb-10">
+        <p className="text-sm text-gray-500 dark:text-dark-muted mb-7 text-center">
+          Entrez le code à 6 chiffres reçu par SMS
+        </p>
 
         <form onSubmit={handleSubmit}>
           <div className="flex gap-2 justify-center mb-8">
@@ -94,26 +99,29 @@ export default function VerifyOTP() {
                 value={digit}
                 onChange={(e) => handleChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className={`w-12 h-14 text-center text-xl font-bold border-2 rounded-xl focus:outline-none transition-colors ${
-                  digit ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-gray-200 focus:border-primary-400'
+                className={`w-12 h-14 text-center text-xl font-bold border-2 rounded-2xl focus:outline-none transition-colors ${
+                  digit
+                    ? 'border-primary-500 bg-primary-500/10 text-primary-600 dark:text-primary-400'
+                    : 'border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card focus:border-primary-400 text-gray-900 dark:text-white'
                 }`}
               />
             ))}
           </div>
 
           <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Vérification...' : 'Confirmer'}
+            {loading ? 'Vérification…' : 'Confirmer'}
+            {!loading && <ArrowRight size={18} />}
           </button>
         </form>
 
-        <div className="text-center mt-6">
-          <p className="text-sm text-gray-500">Vous n'avez pas reçu le code ?</p>
+        <div className="text-center mt-8">
+          <p className="text-sm text-gray-500 dark:text-dark-muted">Vous n'avez pas reçu le code ?</p>
           <button
             onClick={resendOTP}
             disabled={resending}
-            className="text-primary-600 font-semibold text-sm mt-1"
+            className="text-primary-500 font-semibold text-sm mt-1.5"
           >
-            {resending ? 'Envoi...' : 'Renvoyer le code'}
+            {resending ? 'Envoi…' : 'Renvoyer le code'}
           </button>
         </div>
       </div>
