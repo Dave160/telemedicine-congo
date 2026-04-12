@@ -20,9 +20,12 @@ import Conversations from './pages/Conversations';
 import PatientDashboard from './pages/patient/Dashboard';
 import Doctors from './pages/patient/Doctors';
 import DoctorProfile from './pages/patient/DoctorProfile';
+import DoctorsBySpecialty from './pages/patient/DoctorsBySpecialty';
 import BookAppointment from './pages/patient/BookAppointment';
 import PatientAppointments from './pages/patient/Appointments';
 import Prescriptions from './pages/patient/Prescriptions';
+import MedicalRecord from './pages/patient/MedicalRecord';
+import Analyses from './pages/patient/Analyses';
 
 // Doctor
 import DoctorDashboard from './pages/doctor/Dashboard';
@@ -97,10 +100,13 @@ export default function App() {
         {/* Patient */}
         <Route path="/dashboard" element={<ProtectedLayout roles={['PATIENT']}><PatientDashboard /></ProtectedLayout>} />
         <Route path="/doctors" element={<ProtectedLayout roles={['PATIENT']}><Doctors /></ProtectedLayout>} />
+        <Route path="/doctors/specialty/:specialite" element={<ProtectedLayout roles={['PATIENT']}><DoctorsBySpecialty /></ProtectedLayout>} />
         <Route path="/doctors/:id" element={<ProtectedLayout roles={['PATIENT']}><DoctorProfile /></ProtectedLayout>} />
         <Route path="/book/:doctorId" element={<Protected roles={['PATIENT']}><BookAppointment /></Protected>} />
         <Route path="/appointments" element={<ProtectedLayout roles={['PATIENT']}><PatientAppointments /></ProtectedLayout>} />
         <Route path="/prescriptions" element={<ProtectedLayout roles={['PATIENT']}><Prescriptions /></ProtectedLayout>} />
+        <Route path="/medical-record" element={<ProtectedLayout roles={['PATIENT']}><MedicalRecord /></ProtectedLayout>} />
+        <Route path="/analyses" element={<ProtectedLayout roles={['PATIENT']}><Analyses /></ProtectedLayout>} />
 
         {/* Doctor */}
         <Route path="/doctor/dashboard" element={<ProtectedLayout roles={['DOCTOR']}><DoctorDashboard /></ProtectedLayout>} />

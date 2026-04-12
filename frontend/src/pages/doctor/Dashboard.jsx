@@ -47,83 +47,90 @@ export default function DoctorDashboard() {
   }
 
   return (
-    <div className="p-4 space-y-5">
+    <div className="bg-gray-50 dark:bg-dark-bg min-h-full">
       {/* Header */}
-      <div className="bg-primary-500 rounded-2xl p-5 text-white">
-        <div className="flex items-start justify-between">
+      <div className="bg-primary-500 px-4 pt-4 pb-5">
+        <div className="flex items-start justify-between mb-3">
           <div>
-            <h2 className="text-xl font-bold">
+            <h2 className="text-xl font-bold text-white">
               Dr {doctor?.prenom} {doctor?.nom}
             </h2>
-            <p className="text-primary-100 text-sm">{doctor?.specialite}</p>
+            <p className="text-white/80 text-sm">{doctor?.specialite}</p>
           </div>
           <button
             onClick={toggleOnline}
             disabled={toggling}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold transition-colors ${
-              doctor?.isAvailableNow ? 'bg-green-400 text-white' : 'bg-white/20 text-white'
+              doctor?.isAvailableNow ? 'bg-white text-primary-500' : 'bg-white/20 text-white'
             }`}
           >
-            <span className={`w-2 h-2 rounded-full ${doctor?.isAvailableNow ? 'bg-white' : 'bg-gray-300'}`} />
+            <span className={`w-2 h-2 rounded-full ${doctor?.isAvailableNow ? 'bg-primary-500' : 'bg-white/60'}`} />
             {toggling ? '...' : doctor?.isAvailableNow ? 'En ligne' : 'Hors ligne'}
           </button>
         </div>
-
         {!doctor?.subscriptionActive && (
           <Link
             to="/doctor/subscription"
-            className="mt-3 block bg-yellow-400 text-yellow-900 font-semibold text-center py-2 rounded-xl text-sm"
+            className="block bg-amber-400 text-amber-900 font-semibold text-center py-2.5 rounded-xl text-sm"
           >
             ⚠️ Activer l'abonnement (20 000 FCFA/mois)
           </Link>
         )}
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
-        {[
-          { label: 'RDV', value: stats.total, icon: '📅' },
-          { label: 'Ce mois', value: todayAppointments.length, icon: '✅' },
-          { label: 'Gains', value: `${stats.earnings?.toLocaleString()} F`, icon: '💰' },
-        ].map((s) => (
-          <div key={s.label} className="card text-center">
-            <span className="text-2xl block mb-1">{s.icon}</span>
-            <p className="font-bold text-gray-900 text-sm">{s.value}</p>
-            <p className="text-xs text-gray-500">{s.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Prochaines consultations */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-bold text-gray-900">Consultations à venir</h3>
-          <Link to="/doctor/appointments" className="text-sm text-primary-600">Voir tout</Link>
+      <div className="p-4 space-y-4">
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { label: 'RDV total', value: stats.total, icon: '📅' },
+            { label: 'En attente', value: todayAppointments.length, icon: '⏳' },
+            { label: 'Gains', value: `${(stats.earnings || 0).toLocaleString('fr-FR')} F`, icon: '💰' },
+          ].map((s) => (
+            <div key={s.label} className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-3 text-center">
+              <span className="text-2xl block mb-1">{s.icon}</span>
+              <p className="font-bold text-gray-900 dark:text-white text-sm">{s.value}</p>
+              <p className="text-xs text-gray-500 dark:text-dark-muted">{s.label}</p>
+            </div>
+          ))}
         </div>
-        {loading ? (
-          <div className="space-y-3">{[1, 2].map((i) => <div key={i} className="card h-20 bg-gray-100 animate-pulse" />)}</div>
-        ) : todayAppointments.length === 0 ? (
-          <div className="card text-center py-6">
-            <p className="text-gray-500 text-sm">Aucune consultation à venir</p>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {todayAppointments.map((a) => <AppointmentCard key={a.id} appointment={a} role="DOCTOR" />)}
-          </div>
-        )}
-      </div>
 
-      {/* Liens rapides */}
-      <div className="grid grid-cols-2 gap-3">
-        {[
-          { icon: '🗓️', label: 'Mes disponibilités', path: '/doctor/availabilities' },
-          { icon: '💰', label: 'Mes gains', path: '/doctor/earnings' },
-        ].map((item) => (
-          <Link key={item.path} to={item.path} className="card text-center py-4">
-            <span className="text-3xl block mb-1">{item.icon}</span>
-            <span className="text-sm font-medium text-gray-700">{item.label}</span>
-          </Link>
-        ))}
+        {/* Prochaines consultations */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-bold text-gray-900 dark:text-white text-sm">Consultations à venir</h3>
+            <Link to="/doctor/appointments" className="text-xs text-primary-500 font-semibold">Voir tout</Link>
+          </div>
+          {loading ? (
+            <div className="space-y-2">{[1, 2].map((i) => <div key={i} className="bg-white dark:bg-dark-card h-20 rounded-2xl animate-pulse" />)}</div>
+          ) : todayAppointments.length === 0 ? (
+            <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-6 text-center">
+              <p className="text-gray-500 dark:text-dark-muted text-sm">Aucune consultation à venir</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {todayAppointments.map((a) => <AppointmentCard key={a.id} appointment={a} role="DOCTOR" />)}
+            </div>
+          )}
+        </div>
+
+        {/* Liens rapides */}
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { icon: '🗓️', label: 'Disponibilités', path: '/doctor/availabilities' },
+            { icon: '💰', label: 'Mes gains', path: '/doctor/earnings' },
+            { icon: '👥', label: 'Mes patients', path: '/doctor/patients' },
+            { icon: '📋', label: 'Abonnement', path: '/doctor/subscription' },
+          ].map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 text-center hover:shadow-sm transition-shadow"
+            >
+              <span className="text-3xl block mb-1">{item.icon}</span>
+              <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">{item.label}</span>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
