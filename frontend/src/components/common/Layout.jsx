@@ -83,7 +83,7 @@ const adminNav = [
   { path: '/admin/users',     label: 'Utilisateurs', Icon: UsersIcon },
   { path: '/admin/doctors',   label: 'Médecins',     Icon: StethoscopeIcon },
   { path: '/admin/payments',  label: 'Paiements',    Icon: CreditCardIcon },
-  { path: '/admin/articles',  label: 'Articles',     Icon: ArticleIcon },
+  { path: '/profile',         label: 'Profil',       Icon: UserIcon },
 ];
 
 export default function Layout({ children }) {
