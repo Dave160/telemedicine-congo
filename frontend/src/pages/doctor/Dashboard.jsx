@@ -82,12 +82,26 @@ export default function DoctorDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: 'RDV total', value: stats.total, icon: '📅' },
-            { label: 'En attente', value: todayAppointments.length, icon: '⏳' },
-            { label: 'Gains', value: `${(stats.earnings || 0).toLocaleString('fr-FR')} F`, icon: '💰' },
+            {
+              label: 'RDV total', value: stats.total,
+              bg: '#22c55e20', color: '#22c55e',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-6 h-6"><rect x="3" y="4" width="18" height="18" rx="2"/><path strokeLinecap="round" d="M16 2v4M8 2v4M3 10h18"/></svg>
+            },
+            {
+              label: 'En attente', value: todayAppointments.length,
+              bg: '#f59e0b20', color: '#f59e0b',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" className="w-6 h-6"><circle cx="12" cy="12" r="10"/><path strokeLinecap="round" d="M12 6v6l4 2"/></svg>
+            },
+            {
+              label: 'Gains (F)', value: (stats.earnings || 0).toLocaleString('fr-FR'),
+              bg: '#22c55e20', color: '#22c55e',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" className="w-6 h-6"><circle cx="12" cy="12" r="10"/><path strokeLinecap="round" d="M12 6v2m0 8v2M9.5 9.5a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 3.5m0 1h.01"/></svg>
+            },
           ].map((s) => (
             <div key={s.label} className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-3 text-center">
-              <span className="text-2xl block mb-1">{s.icon}</span>
+              <div className="w-11 h-11 rounded-xl mx-auto mb-2 flex items-center justify-center" style={{ backgroundColor: s.bg }}>
+                {s.svg}
+              </div>
               <p className="font-bold text-gray-900 dark:text-white text-sm">{s.value}</p>
               <p className="text-xs text-gray-500 dark:text-dark-muted">{s.label}</p>
             </div>
@@ -114,23 +128,46 @@ export default function DoctorDashboard() {
         </div>
 
         {/* Liens rapides */}
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { icon: '🗓️', label: 'Disponibilités', path: '/doctor/availabilities' },
-            { icon: '💰', label: 'Mes gains', path: '/doctor/earnings' },
-            { icon: '👥', label: 'Mes patients', path: '/doctor/patients' },
-            { icon: '📋', label: 'Abonnement', path: '/doctor/subscription' },
-          ].map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 text-center hover:shadow-sm transition-shadow"
-            >
-              <span className="text-3xl block mb-1">{item.icon}</span>
-              <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">{item.label}</span>
-            </Link>
-          ))}
-        </div>
+        {(() => {
+          const quickLinks = [
+            {
+              label: 'Disponibilités', path: '/doctor/availabilities',
+              bg: '#22c55e20',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" className="w-7 h-7"><rect x="3" y="4" width="18" height="18" rx="2"/><path strokeLinecap="round" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+            },
+            {
+              label: 'Mes gains', path: '/doctor/earnings',
+              bg: '#22c55e20',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.8" className="w-7 h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            },
+            {
+              label: 'Mes patients', path: '/doctor/patients',
+              bg: '#3b82f620',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.8" className="w-7 h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            },
+            {
+              label: 'Abonnement', path: '/doctor/subscription',
+              bg: '#f59e0b20',
+              svg: <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="1.8" className="w-7 h-7"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            },
+          ];
+          return (
+            <div className="grid grid-cols-2 gap-3">
+              {quickLinks.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2 hover:shadow-sm transition-shadow"
+                >
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ backgroundColor: item.bg }}>
+                    {item.svg}
+                  </div>
+                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 text-center">{item.label}</span>
+                </Link>
+              ))}
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

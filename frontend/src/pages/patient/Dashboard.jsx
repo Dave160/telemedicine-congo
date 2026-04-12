@@ -117,8 +117,8 @@ export default function PatientDashboard() {
         <div>
           <p className="text-sm font-semibold text-gray-500 dark:text-dark-muted mb-3">Prendre rendez-vous</p>
           <div className="grid grid-cols-2 gap-3">
-            <Link
-              to="/doctors"
+            <button
+              onClick={() => { sessionStorage.setItem('bookingForSelf', 'true'); navigate('/doctors'); }}
               className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2 hover:shadow-sm transition-shadow"
             >
               <div className="w-11 h-11 rounded-full bg-primary-500/10 flex items-center justify-center">
@@ -127,9 +127,9 @@ export default function PatientDashboard() {
                 </svg>
               </div>
               <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 text-center">Me programmer</span>
-            </Link>
-            <Link
-              to="/doctors"
+            </button>
+            <button
+              onClick={() => { sessionStorage.setItem('bookingForSelf', 'false'); navigate('/doctors'); }}
               className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border p-4 flex flex-col items-center gap-2 hover:shadow-sm transition-shadow"
             >
               <div className="w-11 h-11 rounded-full bg-primary-500/10 flex items-center justify-center">
@@ -138,7 +138,7 @@ export default function PatientDashboard() {
                 </svg>
               </div>
               <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 text-center">Programmer quelqu'un</span>
-            </Link>
+            </button>
           </div>
         </div>
 
