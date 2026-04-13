@@ -47,10 +47,10 @@ export default function NotificationsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -59,13 +59,13 @@ export default function NotificationsScreen() {
         </Text>
         {unreadCount > 0 && (
           <TouchableOpacity onPress={markAllRead}>
-            <Text style={{ color: '#b3d1ff', fontSize: 12, fontWeight: '500' }}>Tout lire</Text>
+            <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: '500' }}>Tout lire</Text>
           </TouchableOpacity>
         )}
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={notifications}
@@ -87,10 +87,10 @@ export default function NotificationsScreen() {
                 shadowOpacity: item.isRead ? 0.02 : 0.06,
                 shadowRadius: 4,
                 borderLeftWidth: item.isRead ? 0 : 3,
-                borderLeftColor: '#1a73e8',
+                borderLeftColor: '#2db87a',
               }}
             >
-              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: item.isRead ? '#f3f4f6' : '#e8f0fe', alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: item.isRead ? '#f3f4f6' : '#d1fae5', alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ fontSize: 22 }}>{NOTIF_ICONS[item.type] || NOTIF_ICONS.DEFAULT}</Text>
               </View>
               <View style={{ flex: 1 }}>
@@ -101,7 +101,7 @@ export default function NotificationsScreen() {
                 </Text>
               </View>
               {!item.isRead && (
-                <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#1a73e8', marginTop: 6 }} />
+                <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#2db87a', marginTop: 6 }} />
               )}
             </TouchableOpacity>
           )}

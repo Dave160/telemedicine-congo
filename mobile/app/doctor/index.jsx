@@ -46,15 +46,15 @@ export default function DoctorHome() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View style={{ backgroundColor: '#1a73e8', padding: 20, paddingBottom: 24 }}>
+        <View style={{ backgroundColor: '#2db87a', padding: 20, paddingBottom: 24 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <View style={{ flex: 1 }}>
-              <Text style={{ color: '#b3d1ff', fontSize: 13 }}>Bienvenue,</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>Bienvenue,</Text>
               <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Dr {doctor?.prenom} {doctor?.nom}</Text>
-              <Text style={{ color: '#b3d1ff', fontSize: 13 }}>{doctor?.specialite}</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{doctor?.specialite}</Text>
             </View>
             <TouchableOpacity
               onPress={() => router.push('/notifications')}
@@ -105,10 +105,10 @@ export default function DoctorHome() {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#111' }}>Consultations à venir</Text>
               <TouchableOpacity onPress={() => router.push('/doctor/appointments')}>
-                <Text style={{ color: '#1a73e8', fontSize: 13 }}>Voir tout</Text>
+                <Text style={{ color: '#2db87a', fontSize: 13 }}>Voir tout</Text>
               </TouchableOpacity>
             </View>
-            {loading ? <ActivityIndicator color="#1a73e8" /> : appointments.length === 0 ? (
+            {loading ? <ActivityIndicator color="#2db87a" /> : appointments.length === 0 ? (
               <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 20, alignItems: 'center' }}>
                 <Text style={{ fontSize: 32 }}>📅</Text>
                 <Text style={{ color: '#777', marginTop: 6, fontSize: 13 }}>Aucune consultation</Text>

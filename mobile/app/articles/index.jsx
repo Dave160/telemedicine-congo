@@ -30,8 +30,8 @@ export default function ArticlesScreen() {
   if (selectedArticle) {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-        <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+        <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+        <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
           <TouchableOpacity onPress={() => setSelectedArticle(null)} style={{ padding: 4 }}>
             <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
           </TouchableOpacity>
@@ -42,8 +42,8 @@ export default function ArticlesScreen() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={{ padding: 20 }}>
-              <View style={{ backgroundColor: '#e8f0fe', borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4, alignSelf: 'flex-start', marginBottom: 12 }}>
-                <Text style={{ color: '#1a73e8', fontSize: 12, fontWeight: '600' }}>{item.category}</Text>
+              <View style={{ backgroundColor: '#d1fae5', borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4, alignSelf: 'flex-start', marginBottom: 12 }}>
+                <Text style={{ color: '#2db87a', fontSize: 12, fontWeight: '600' }}>{item.category}</Text>
               </View>
               <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#111', marginBottom: 8, lineHeight: 30 }}>{item.title}</Text>
               <Text style={{ color: '#9ca3af', fontSize: 12, marginBottom: 16 }}>
@@ -59,10 +59,10 @@ export default function ArticlesScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -82,7 +82,7 @@ export default function ArticlesScreen() {
             return (
               <TouchableOpacity
                 onPress={() => setCategory(val)}
-                style={{ paddingHorizontal: 14, paddingVertical: 6, borderRadius: 20, backgroundColor: category === val ? '#1a73e8' : '#f3f4f6' }}
+                style={{ paddingHorizontal: 14, paddingVertical: 6, borderRadius: 20, backgroundColor: category === val ? '#2db87a' : '#f3f4f6' }}
               >
                 <Text style={{ color: category === val ? '#fff' : '#555', fontSize: 13, fontWeight: '500' }}>{item}</Text>
               </TouchableOpacity>
@@ -92,7 +92,7 @@ export default function ArticlesScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={articles}
@@ -104,8 +104,8 @@ export default function ArticlesScreen() {
               style={{ backgroundColor: '#fff', borderRadius: 16, padding: 16, marginBottom: 10, elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4 }}
             >
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <View style={{ backgroundColor: '#e8f0fe', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 2 }}>
-                  <Text style={{ color: '#1a73e8', fontSize: 11, fontWeight: '600' }}>{item.category}</Text>
+                <View style={{ backgroundColor: '#d1fae5', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 2 }}>
+                  <Text style={{ color: '#2db87a', fontSize: 11, fontWeight: '600' }}>{item.category}</Text>
                 </View>
                 <Text style={{ color: '#9ca3af', fontSize: 11 }}>
                   {item.createdAt ? new Date(item.createdAt).toLocaleDateString('fr-FR') : ''}

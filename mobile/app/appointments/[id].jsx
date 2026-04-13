@@ -38,7 +38,7 @@ export default function AppointmentDetailScreen() {
   if (loading) {
     return (
       <View style={{ flex: 1, backgroundColor: '#f9fafb', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator color="#1a73e8" size="large" />
+        <ActivityIndicator color="#2db87a" size="large" />
       </View>
     );
   }
@@ -61,10 +61,10 @@ export default function AppointmentDetailScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -112,7 +112,7 @@ export default function AppointmentDetailScreen() {
                 Alert.alert('Info', 'La conversation sera disponible après la confirmation.');
               }
             }}
-            style={{ backgroundColor: '#1a73e8', borderRadius: 14, paddingVertical: 15, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 8 }}
+            style={{ backgroundColor: '#2db87a', borderRadius: 14, paddingVertical: 15, alignItems: 'center', flexDirection: 'row', justifyContent: 'center', gap: 8 }}
           >
             <Text style={{ fontSize: 20 }}>💬</Text>
             <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Rejoindre le chat</Text>
@@ -166,7 +166,7 @@ export default function AppointmentDetailScreen() {
           </TouchableOpacity>
         )}
 
-        {acting && <ActivityIndicator color="#1a73e8" />}
+        {acting && <ActivityIndicator color="#2db87a" />}
       </ScrollView>
     </View>
   );

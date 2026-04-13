@@ -37,8 +37,8 @@ export default function DoctorAvailabilitiesScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Mes disponibilités</Text>
         <TouchableOpacity onPress={() => setShowForm(!showForm)} style={{ backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 6 }}>
           <Text style={{ color: '#fff', fontWeight: '600' }}>+ Ajouter</Text>
@@ -54,7 +54,7 @@ export default function DoctorAvailabilitiesScreen() {
               <TouchableOpacity
                 key={i}
                 onPress={() => setForm({ ...form, dayOfWeek: i })}
-                style={{ paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, backgroundColor: form.dayOfWeek === i ? '#1a73e8' : '#f3f4f6' }}
+                style={{ paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, backgroundColor: form.dayOfWeek === i ? '#2db87a' : '#f3f4f6' }}
               >
                 <Text style={{ color: form.dayOfWeek === i ? '#fff' : '#444', fontSize: 12, fontWeight: '500' }}>{d.slice(0, 3)}</Text>
               </TouchableOpacity>
@@ -71,7 +71,7 @@ export default function DoctorAvailabilitiesScreen() {
             </View>
           </View>
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
-            <TouchableOpacity onPress={addAv} disabled={saving} style={{ flex: 1, backgroundColor: '#1a73e8', borderRadius: 10, paddingVertical: 12, alignItems: 'center', opacity: saving ? 0.7 : 1 }}>
+            <TouchableOpacity onPress={addAv} disabled={saving} style={{ flex: 1, backgroundColor: '#2db87a', borderRadius: 10, paddingVertical: 12, alignItems: 'center', opacity: saving ? 0.7 : 1 }}>
               <Text style={{ color: '#fff', fontWeight: '700' }}>{saving ? '...' : 'Enregistrer'}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setShowForm(false)} style={{ flex: 1, backgroundColor: '#f3f4f6', borderRadius: 10, paddingVertical: 12, alignItems: 'center' }}>
@@ -81,7 +81,7 @@ export default function DoctorAvailabilitiesScreen() {
         </View>
       )}
 
-      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" /> : (
+      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" /> : (
         <FlatList
           data={avs}
           keyExtractor={(item) => item.id}

@@ -22,10 +22,10 @@ export default function PatientPrescriptionsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -33,7 +33,7 @@ export default function PatientPrescriptionsScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={prescriptions}
@@ -50,8 +50,8 @@ export default function PatientPrescriptionsScreen() {
                     {item.createdAt ? new Date(item.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }) : ''}
                   </Text>
                 </View>
-                <View style={{ backgroundColor: '#e8f0fe', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12 }}>
-                  <Text style={{ color: '#1a73e8', fontSize: 11, fontWeight: '600' }}>📄 Ordonnance</Text>
+                <View style={{ backgroundColor: '#d1fae5', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 12 }}>
+                  <Text style={{ color: '#2db87a', fontSize: 11, fontWeight: '600' }}>📄 Ordonnance</Text>
                 </View>
               </View>
 

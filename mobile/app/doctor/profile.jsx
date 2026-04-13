@@ -31,14 +31,14 @@ export default function DoctorProfile() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
       <ScrollView>
-        <View style={{ backgroundColor: '#1a73e8', padding: 20, alignItems: 'center', paddingBottom: 28 }}>
+        <View style={{ backgroundColor: '#2db87a', padding: 20, alignItems: 'center', paddingBottom: 28 }}>
           <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
             <Text style={{ fontSize: 32 }}>👨‍⚕️</Text>
           </View>
           <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Dr {doctor?.prenom} {doctor?.nom}</Text>
-          <Text style={{ color: '#b3d1ff', fontSize: 13 }}>{doctor?.specialite}</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{doctor?.specialite}</Text>
           <TouchableOpacity onPress={() => router.push('/doctor/subscription')} style={{ marginTop: 8, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 20, paddingHorizontal: 12, paddingVertical: 4 }}>
             <Text style={{ color: '#fff', fontSize: 12 }}>{doctor?.subscriptionActive ? '✅ Abonné' : '⚠️ S\'abonner'}</Text>
           </TouchableOpacity>
@@ -56,7 +56,7 @@ export default function DoctorProfile() {
           <Text style={labelStyle}>Description</Text>
           <TextInput style={{ ...inputStyle, height: 80 }} multiline value={form.description} onChangeText={(v) => setForm({ ...form, description: v })} />
 
-          <TouchableOpacity onPress={handleSave} disabled={saving} style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: saving ? 0.7 : 1, marginBottom: 12 }}>
+          <TouchableOpacity onPress={handleSave} disabled={saving} style={{ backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: saving ? 0.7 : 1, marginBottom: 12 }}>
             {saving ? <ActivityIndicator color="#fff" /> : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Sauvegarder</Text>}
           </TouchableOpacity>
           <TouchableOpacity onPress={async () => { await logout(); router.replace('/auth/login'); }} style={{ borderWidth: 1.5, borderColor: '#fca5a5', borderRadius: 12, paddingVertical: 14, alignItems: 'center' }}>

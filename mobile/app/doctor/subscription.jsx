@@ -26,7 +26,7 @@ export default function DoctorSubscriptionScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
       <ScrollView contentContainerStyle={{ padding: 20 }}>
         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#111', marginBottom: 20 }}>Mon abonnement</Text>
 
@@ -50,7 +50,7 @@ export default function DoctorSubscriptionScreen() {
               <Text style={{ color: '#444', fontSize: 14 }}>{item}</Text>
             </View>
           ))}
-          <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#1a73e8', marginTop: 12 }}>20 000 FCFA</Text>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#2db87a', marginTop: 12 }}>20 000 FCFA</Text>
           <Text style={{ color: '#777', fontSize: 13 }}>par mois</Text>
         </View>
 
@@ -61,12 +61,12 @@ export default function DoctorSubscriptionScreen() {
               <TouchableOpacity
                 key={m}
                 onPress={() => setForm({ ...form, method: m })}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, borderWidth: 2, marginBottom: 10, borderColor: form.method === m ? '#1a73e8' : '#e5e7eb', backgroundColor: form.method === m ? '#e8f0fe' : '#fff' }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, borderWidth: 2, marginBottom: 10, borderColor: form.method === m ? '#2db87a' : '#e5e7eb', backgroundColor: form.method === m ? '#d1fae5' : '#fff' }}
               >
-                <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: form.method === m ? '#1a73e8' : '#e5e7eb', backgroundColor: form.method === m ? '#1a73e8' : '#fff', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: form.method === m ? '#2db87a' : '#e5e7eb', backgroundColor: form.method === m ? '#2db87a' : '#fff', alignItems: 'center', justifyContent: 'center' }}>
                   {form.method === m && <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#fff' }} />}
                 </View>
-                <Text style={{ fontWeight: '600', color: form.method === m ? '#1a73e8' : '#444' }}>
+                <Text style={{ fontWeight: '600', color: form.method === m ? '#2db87a' : '#444' }}>
                   📱 {m === 'MTN_MONEY' ? 'MTN Money' : 'Airtel Money'}
                 </Text>
               </TouchableOpacity>
@@ -79,7 +79,7 @@ export default function DoctorSubscriptionScreen() {
               onChangeText={(v) => setForm({ ...form, phone: v })}
               keyboardType="phone-pad"
             />
-            <TouchableOpacity onPress={subscribe} disabled={loading} style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1 }}>
+            <TouchableOpacity onPress={subscribe} disabled={loading} style={{ backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1 }}>
               {loading ? <ActivityIndicator color="#fff" /> : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Payer 20 000 FCFA</Text>}
             </TouchableOpacity>
           </View>

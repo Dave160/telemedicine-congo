@@ -27,8 +27,8 @@ export default function AdminUsersScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 14 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 14 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
           Utilisateurs ({users.length})
         </Text>
@@ -46,7 +46,7 @@ export default function AdminUsersScreen() {
           <TouchableOpacity
             key={r.v}
             onPress={() => setRoleFilter(r.v)}
-            style={{ flex: 1, paddingVertical: 6, borderRadius: 20, backgroundColor: roleFilter === r.v ? '#1a73e8' : '#f3f4f6', alignItems: 'center' }}
+            style={{ flex: 1, paddingVertical: 6, borderRadius: 20, backgroundColor: roleFilter === r.v ? '#2db87a' : '#f3f4f6', alignItems: 'center' }}
           >
             <Text style={{ color: roleFilter === r.v ? '#fff' : '#555', fontSize: 11, fontWeight: '600' }}>{r.l}</Text>
           </TouchableOpacity>
@@ -54,7 +54,7 @@ export default function AdminUsersScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={filtered}

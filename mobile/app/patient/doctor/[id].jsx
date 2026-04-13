@@ -78,7 +78,7 @@ export default function DoctorDetailScreen() {
   if (loading) {
     return (
       <View style={{ flex: 1, backgroundColor: '#f9fafb', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator color="#1a73e8" size="large" />
+        <ActivityIndicator color="#2db87a" size="large" />
       </View>
     );
   }
@@ -93,10 +93,10 @@ export default function DoctorDetailScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -105,12 +105,12 @@ export default function DoctorDetailScreen() {
 
       <ScrollView>
         {/* Doctor card */}
-        <View style={{ backgroundColor: '#1a73e8', padding: 20, alignItems: 'center', paddingBottom: 28 }}>
+        <View style={{ backgroundColor: '#2db87a', padding: 20, alignItems: 'center', paddingBottom: 28 }}>
           <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
             <Text style={{ fontSize: 40 }}>👨‍⚕️</Text>
           </View>
           <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Dr {doctor.prenom} {doctor.nom}</Text>
-          <Text style={{ color: '#b3d1ff', fontSize: 14, marginTop: 2 }}>{doctor.specialite}</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, marginTop: 2 }}>{doctor.specialite}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6 }}>
             {doctor.isAvailableNow && (
               <>
@@ -122,7 +122,7 @@ export default function DoctorDetailScreen() {
           <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', marginTop: 8 }}>
             {doctor.tarif?.toLocaleString()} FCFA
           </Text>
-          <Text style={{ color: '#b3d1ff', fontSize: 12 }}>par consultation</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>par consultation</Text>
         </View>
 
         <View style={{ padding: 16, gap: 14 }}>
@@ -150,7 +150,7 @@ export default function DoctorDetailScreen() {
           {/* Book button */}
           <TouchableOpacity
             onPress={() => setBookModal(true)}
-            style={{ backgroundColor: '#1a73e8', borderRadius: 14, paddingVertical: 16, alignItems: 'center', elevation: 3 }}
+            style={{ backgroundColor: '#2db87a', borderRadius: 14, paddingVertical: 16, alignItems: 'center', elevation: 3 }}
           >
             <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Prendre rendez-vous</Text>
           </TouchableOpacity>
@@ -173,13 +173,13 @@ export default function DoctorDetailScreen() {
               <TouchableOpacity
                 key={t.v}
                 onPress={() => setForm({ ...form, type: t.v })}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, borderWidth: 2, marginBottom: 8, borderColor: form.type === t.v ? '#1a73e8' : '#e5e7eb', backgroundColor: form.type === t.v ? '#e8f0fe' : '#fff' }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, borderWidth: 2, marginBottom: 8, borderColor: form.type === t.v ? '#2db87a' : '#e5e7eb', backgroundColor: form.type === t.v ? '#d1fae5' : '#fff' }}
               >
-                <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: form.type === t.v ? '#1a73e8' : '#d1d5db', backgroundColor: form.type === t.v ? '#1a73e8' : '#fff', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: form.type === t.v ? '#2db87a' : '#d1d5db', backgroundColor: form.type === t.v ? '#2db87a' : '#fff', alignItems: 'center', justifyContent: 'center' }}>
                   {form.type === t.v && <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#fff' }} />}
                 </View>
                 <View>
-                  <Text style={{ fontWeight: '600', color: form.type === t.v ? '#1a73e8' : '#444' }}>{t.l}</Text>
+                  <Text style={{ fontWeight: '600', color: form.type === t.v ? '#2db87a' : '#444' }}>{t.l}</Text>
                   <Text style={{ fontSize: 11, color: '#999' }}>{t.desc}</Text>
                 </View>
               </TouchableOpacity>
@@ -192,9 +192,9 @@ export default function DoctorDetailScreen() {
                 <TouchableOpacity
                   key={m.v}
                   onPress={() => setForm({ ...form, consultationType: m.v })}
-                  style={{ flex: 1, paddingVertical: 8, borderRadius: 10, alignItems: 'center', borderWidth: 1.5, borderColor: form.consultationType === m.v ? '#1a73e8' : '#e5e7eb', backgroundColor: form.consultationType === m.v ? '#e8f0fe' : '#fff' }}
+                  style={{ flex: 1, paddingVertical: 8, borderRadius: 10, alignItems: 'center', borderWidth: 1.5, borderColor: form.consultationType === m.v ? '#2db87a' : '#e5e7eb', backgroundColor: form.consultationType === m.v ? '#d1fae5' : '#fff' }}
                 >
-                  <Text style={{ fontSize: 12, fontWeight: '600', color: form.consultationType === m.v ? '#1a73e8' : '#555' }}>{m.l}</Text>
+                  <Text style={{ fontSize: 12, fontWeight: '600', color: form.consultationType === m.v ? '#2db87a' : '#555' }}>{m.l}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -216,7 +216,7 @@ export default function DoctorDetailScreen() {
               <TouchableOpacity onPress={() => setBookModal(false)} style={{ flex: 1, backgroundColor: '#f3f4f6', borderRadius: 12, paddingVertical: 14, alignItems: 'center' }}>
                 <Text style={{ color: '#444', fontWeight: '600' }}>Annuler</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleBook} disabled={booking} style={{ flex: 1, backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: booking ? 0.7 : 1 }}>
+              <TouchableOpacity onPress={handleBook} disabled={booking} style={{ flex: 1, backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: booking ? 0.7 : 1 }}>
                 {booking ? <ActivityIndicator color="#fff" size="small" /> : <Text style={{ color: '#fff', fontWeight: '700' }}>Confirmer</Text>}
               </TouchableOpacity>
             </View>
@@ -235,12 +235,12 @@ export default function DoctorDetailScreen() {
               <TouchableOpacity
                 key={m}
                 onPress={() => setPayForm({ ...payForm, method: m })}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, borderWidth: 2, marginBottom: 10, borderColor: payForm.method === m ? '#1a73e8' : '#e5e7eb', backgroundColor: payForm.method === m ? '#e8f0fe' : '#fff' }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, borderWidth: 2, marginBottom: 10, borderColor: payForm.method === m ? '#2db87a' : '#e5e7eb', backgroundColor: payForm.method === m ? '#d1fae5' : '#fff' }}
               >
-                <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: payForm.method === m ? '#1a73e8' : '#d1d5db', backgroundColor: payForm.method === m ? '#1a73e8' : '#fff', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 20, height: 20, borderRadius: 10, borderWidth: 2, borderColor: payForm.method === m ? '#2db87a' : '#d1d5db', backgroundColor: payForm.method === m ? '#2db87a' : '#fff', alignItems: 'center', justifyContent: 'center' }}>
                   {payForm.method === m && <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#fff' }} />}
                 </View>
-                <Text style={{ fontWeight: '600', color: payForm.method === m ? '#1a73e8' : '#444' }}>
+                <Text style={{ fontWeight: '600', color: payForm.method === m ? '#2db87a' : '#444' }}>
                   📱 {m === 'MTN_MONEY' ? 'MTN Money' : 'Airtel Money'}
                 </Text>
               </TouchableOpacity>
@@ -259,7 +259,7 @@ export default function DoctorDetailScreen() {
               <TouchableOpacity onPress={() => setPayModal(false)} style={{ flex: 1, backgroundColor: '#f3f4f6', borderRadius: 12, paddingVertical: 14, alignItems: 'center' }}>
                 <Text style={{ color: '#444', fontWeight: '600' }}>Annuler</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handlePay} disabled={paying} style={{ flex: 1, backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: paying ? 0.7 : 1 }}>
+              <TouchableOpacity onPress={handlePay} disabled={paying} style={{ flex: 1, backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: paying ? 0.7 : 1 }}>
                 {paying ? <ActivityIndicator color="#fff" size="small" /> : <Text style={{ color: '#fff', fontWeight: '700' }}>Payer</Text>}
               </TouchableOpacity>
             </View>

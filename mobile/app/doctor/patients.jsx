@@ -35,8 +35,8 @@ export default function DoctorPatientsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 14 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 14 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Mes patients</Text>
         <TextInput
           style={{ backgroundColor: '#fff', borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, fontSize: 14 }}
@@ -47,7 +47,7 @@ export default function DoctorPatientsScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={patients}
@@ -67,7 +67,7 @@ export default function DoctorPatientsScreen() {
               {item.lastAppointment?.conversation?.id && (
                 <TouchableOpacity
                   onPress={() => router.push(`/chat/${item.lastAppointment.conversation.id}`)}
-                  style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: '#e8f0fe', alignItems: 'center', justifyContent: 'center' }}
+                  style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: '#d1fae5', alignItems: 'center', justifyContent: 'center' }}
                 >
                   <Text style={{ fontSize: 18 }}>💬</Text>
                 </TouchableOpacity>

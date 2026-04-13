@@ -45,7 +45,7 @@ export default function RegisterScreen() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1, backgroundColor: '#fff' }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={{ backgroundColor: '#1a73e8', paddingTop: 60, paddingBottom: 30, alignItems: 'center' }}>
+        <View style={{ backgroundColor: '#2db87a', paddingTop: 60, paddingBottom: 30, alignItems: 'center' }}>
           <Text style={{ fontSize: 40 }}>🏥</Text>
           <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginTop: 8 }}>Créer un compte</Text>
         </View>
@@ -60,11 +60,11 @@ export default function RegisterScreen() {
                 style={{
                   flex: 1, paddingVertical: 12, borderRadius: 12,
                   borderWidth: 2, alignItems: 'center',
-                  borderColor: form.role === r ? '#1a73e8' : '#e5e7eb',
-                  backgroundColor: form.role === r ? '#e8f0fe' : '#fff',
+                  borderColor: form.role === r ? '#2db87a' : '#e5e7eb',
+                  backgroundColor: form.role === r ? '#d1fae5' : '#fff',
                 }}
               >
-                <Text style={{ color: form.role === r ? '#1a73e8' : '#666', fontWeight: '600' }}>
+                <Text style={{ color: form.role === r ? '#2db87a' : '#666', fontWeight: '600' }}>
                   {r === 'PATIENT' ? '👤 Patient' : '🩺 Médecin'}
                 </Text>
               </TouchableOpacity>
@@ -86,14 +86,14 @@ export default function RegisterScreen() {
           <TouchableOpacity
             onPress={handleRegister}
             disabled={loading}
-            style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1, marginTop: 8 }}
+            style={{ backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1, marginTop: 8 }}
           >
             {loading ? <ActivityIndicator color="#fff" /> : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>S'inscrire</Text>}
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => router.push('/auth/login')} style={{ marginTop: 20, alignItems: 'center' }}>
             <Text style={{ color: '#777', fontSize: 14 }}>
-              Déjà inscrit ? <Text style={{ color: '#1a73e8', fontWeight: '600' }}>Se connecter</Text>
+              Déjà inscrit ? <Text style={{ color: '#2db87a', fontWeight: '600' }}>Se connecter</Text>
             </Text>
           </TouchableOpacity>
         </View>

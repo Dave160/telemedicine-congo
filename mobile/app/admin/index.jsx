@@ -14,13 +14,13 @@ export default function AdminDashboardScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', padding: 20, paddingBottom: 20 }}>
-        <Text style={{ color: '#b3d1ff', fontSize: 13 }}>TéléMéd Congo</Text>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', padding: 20, paddingBottom: 20 }}>
+        <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>TéléMéd Congo</Text>
         <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold' }}>Tableau de bord</Text>
       </View>
 
-      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" /> : stats ? (
+      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" /> : stats ? (
         <ScrollView contentContainerStyle={{ padding: 16 }}>
           <View style={{ flexDirection: 'row', gap: 12, marginBottom: 12 }}>
             {[
@@ -52,7 +52,7 @@ export default function AdminDashboardScreen() {
             <Text style={{ fontWeight: 'bold', fontSize: 15, marginBottom: 12 }}>Revenus plateforme</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
               <Text style={{ color: '#777' }}>Total</Text>
-              <Text style={{ fontWeight: 'bold', color: '#1a73e8' }}>{stats.revenue.total?.toLocaleString()} FCFA</Text>
+              <Text style={{ fontWeight: 'bold', color: '#2db87a' }}>{stats.revenue.total?.toLocaleString()} FCFA</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={{ color: '#777' }}>Ce mois</Text>

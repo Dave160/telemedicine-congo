@@ -31,14 +31,14 @@ export default function PatientHome() {
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
       {/* Status bar safe area */}
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Hero */}
-        <View style={{ backgroundColor: '#1a73e8', padding: 20, paddingBottom: 28 }}>
+        <View style={{ backgroundColor: '#2db87a', padding: 20, paddingBottom: 28 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <View>
-              <Text style={{ color: '#b3d1ff', fontSize: 13 }}>Bonjour,</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>Bonjour,</Text>
               <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', marginTop: 2 }}>
                 {patient?.prenom || 'Bienvenue'} 👋
               </Text>
@@ -51,7 +51,7 @@ export default function PatientHome() {
             onPress={() => router.push('/patient/doctors')}
             style={{ backgroundColor: '#fff', borderRadius: 12, paddingVertical: 12, marginTop: 16, alignItems: 'center' }}
           >
-            <Text style={{ color: '#1a73e8', fontWeight: '700', fontSize: 15 }}>Consulter un médecin</Text>
+            <Text style={{ color: '#2db87a', fontWeight: '700', fontSize: 15 }}>Consulter un médecin</Text>
           </TouchableOpacity>
         </View>
 
@@ -66,7 +66,7 @@ export default function PatientHome() {
                   onPress={() => router.push(`/patient/doctor/${doc.id}`)}
                   style={{ backgroundColor: '#fff', borderRadius: 16, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4, elevation: 2 }}
                 >
-                  <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#e8f0fe', alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#d1fae5', alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ fontSize: 22 }}>👨‍⚕️</Text>
                   </View>
                   <View style={{ flex: 1 }}>
@@ -87,12 +87,12 @@ export default function PatientHome() {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#111' }}>📅 Mes rendez-vous</Text>
               <TouchableOpacity onPress={() => router.push('/patient/appointments')}>
-                <Text style={{ color: '#1a73e8', fontSize: 13, fontWeight: '500' }}>Voir tout</Text>
+                <Text style={{ color: '#2db87a', fontSize: 13, fontWeight: '500' }}>Voir tout</Text>
               </TouchableOpacity>
             </View>
 
             {loading ? (
-              <ActivityIndicator color="#1a73e8" />
+              <ActivityIndicator color="#2db87a" />
             ) : appointments.length === 0 ? (
               <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 24, alignItems: 'center' }}>
                 <Text style={{ fontSize: 32, marginBottom: 8 }}>📋</Text>

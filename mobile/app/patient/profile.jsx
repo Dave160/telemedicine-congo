@@ -42,14 +42,14 @@ export default function PatientProfile() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
       <ScrollView>
-        <View style={{ backgroundColor: '#1a73e8', padding: 20, alignItems: 'center', paddingBottom: 32 }}>
+        <View style={{ backgroundColor: '#2db87a', padding: 20, alignItems: 'center', paddingBottom: 32 }}>
           <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
             <Text style={{ fontSize: 32 }}>👤</Text>
           </View>
           <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>{patient?.prenom} {patient?.nom}</Text>
-          <Text style={{ color: '#b3d1ff', fontSize: 13 }}>{user?.phone}</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{user?.phone}</Text>
         </View>
 
         <View style={{ padding: 20 }}>
@@ -68,7 +68,7 @@ export default function PatientProfile() {
           <TouchableOpacity
             onPress={handleSave}
             disabled={saving}
-            style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: saving ? 0.7 : 1, marginBottom: 12 }}
+            style={{ backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: saving ? 0.7 : 1, marginBottom: 12 }}
           >
             {saving ? <ActivityIndicator color="#fff" /> : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Sauvegarder</Text>}
           </TouchableOpacity>

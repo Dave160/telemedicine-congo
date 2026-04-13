@@ -61,9 +61,9 @@ export default function VerifyOTPScreen() {
             style={{
               width: 48, height: 56, borderWidth: 2, borderRadius: 12, textAlign: 'center',
               fontSize: 22, fontWeight: 'bold',
-              borderColor: digit ? '#1a73e8' : '#e5e7eb',
-              backgroundColor: digit ? '#e8f0fe' : '#fff',
-              color: '#1a73e8',
+              borderColor: digit ? '#2db87a' : '#e5e7eb',
+              backgroundColor: digit ? '#d1fae5' : '#fff',
+              color: '#2db87a',
             }}
             maxLength={1}
             keyboardType="numeric"
@@ -76,7 +76,7 @@ export default function VerifyOTPScreen() {
       <TouchableOpacity
         onPress={handleVerify}
         disabled={loading}
-        style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1 }}
+        style={{ backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1 }}
       >
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Confirmer</Text>}
       </TouchableOpacity>

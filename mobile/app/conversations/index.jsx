@@ -26,10 +26,10 @@ export default function ConversationsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -37,7 +37,7 @@ export default function ConversationsScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={conversations}
@@ -51,7 +51,7 @@ export default function ConversationsScreen() {
                 onPress={() => router.push(`/chat/${item.id}`)}
                 style={{ backgroundColor: '#fff', borderRadius: 16, padding: 14, marginBottom: 8, flexDirection: 'row', alignItems: 'center', gap: 12, elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4 }}
               >
-                <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#e8f0fe', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#d1fae5', alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ fontSize: 22 }}>{user?.role === 'DOCTOR' ? '👤' : '👨‍⚕️'}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -67,7 +67,7 @@ export default function ConversationsScreen() {
                     </Text>
                   )}
                   {unread > 0 && (
-                    <View style={{ backgroundColor: '#1a73e8', borderRadius: 10, width: 20, height: 20, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ backgroundColor: '#2db87a', borderRadius: 10, width: 20, height: 20, alignItems: 'center', justifyContent: 'center' }}>
                       <Text style={{ color: '#fff', fontSize: 11, fontWeight: '700' }}>{unread}</Text>
                     </View>
                   )}

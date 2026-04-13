@@ -67,19 +67,19 @@ export default function AdminArticlesScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Articles santé</Text>
         <TouchableOpacity
           onPress={() => setModal(true)}
           style={{ backgroundColor: '#fff', borderRadius: 20, paddingHorizontal: 14, paddingVertical: 6 }}
         >
-          <Text style={{ color: '#1a73e8', fontWeight: '700', fontSize: 13 }}>+ Nouveau</Text>
+          <Text style={{ color: '#2db87a', fontWeight: '700', fontSize: 13 }}>+ Nouveau</Text>
         </TouchableOpacity>
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={articles}
@@ -88,8 +88,8 @@ export default function AdminArticlesScreen() {
           renderItem={({ item }) => (
             <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 14, marginBottom: 10, elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 }}>
-                <View style={{ backgroundColor: '#e8f0fe', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8 }}>
-                  <Text style={{ color: '#1a73e8', fontSize: 11, fontWeight: '600' }}>{item.category}</Text>
+                <View style={{ backgroundColor: '#d1fae5', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8 }}>
+                  <Text style={{ color: '#2db87a', fontSize: 11, fontWeight: '600' }}>{item.category}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <View style={{ backgroundColor: item.isPublished ? '#f0fdf4' : '#f9fafb', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 2 }}>
@@ -157,7 +157,7 @@ export default function AdminArticlesScreen() {
                       <TouchableOpacity
                         key={c}
                         onPress={() => setForm({ ...form, category: c })}
-                        style={{ paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20, backgroundColor: form.category === c ? '#1a73e8' : '#f3f4f6' }}
+                        style={{ paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20, backgroundColor: form.category === c ? '#2db87a' : '#f3f4f6' }}
                       >
                         <Text style={{ color: form.category === c ? '#fff' : '#555', fontSize: 13, fontWeight: '500' }}>{c}</Text>
                       </TouchableOpacity>
@@ -190,7 +190,7 @@ export default function AdminArticlesScreen() {
               <TouchableOpacity
                 onPress={save}
                 disabled={saving}
-                style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: saving ? 0.7 : 1 }}
+                style={{ backgroundColor: '#2db87a', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: saving ? 0.7 : 1 }}
               >
                 <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>{saving ? 'Publication...' : 'Publier l\'article'}</Text>
               </TouchableOpacity>

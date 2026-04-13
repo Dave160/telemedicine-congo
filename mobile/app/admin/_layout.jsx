@@ -6,7 +6,7 @@ export default function AdminTabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#1a73e8',
+        tabBarActiveTintColor: '#2db87a',
         tabBarInactiveTintColor: '#9ca3af',
         tabBarStyle: { paddingBottom: 4, paddingTop: 4, height: 60 },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '500' },

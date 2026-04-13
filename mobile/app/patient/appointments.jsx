@@ -23,8 +23,8 @@ export default function PatientAppointmentsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Mes consultations</Text>
       </View>
 
@@ -33,14 +33,14 @@ export default function PatientAppointmentsScreen() {
           <TouchableOpacity
             key={s.v}
             onPress={() => setFilter(s.v)}
-            style={{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, backgroundColor: filter === s.v ? '#1a73e8' : '#fff', borderWidth: 1, borderColor: filter === s.v ? '#1a73e8' : '#e5e7eb' }}
+            style={{ paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, backgroundColor: filter === s.v ? '#2db87a' : '#fff', borderWidth: 1, borderColor: filter === s.v ? '#2db87a' : '#e5e7eb' }}
           >
             <Text style={{ color: filter === s.v ? '#fff' : '#666', fontSize: 12, fontWeight: '500' }}>{s.l}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" /> : (
+      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" /> : (
         <FlatList
           data={appointments}
           keyExtractor={(item) => item.id}

@@ -20,13 +20,13 @@ export default function AdminDoctorsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Validation médecins</Text>
-        <Text style={{ color: '#b3d1ff', fontSize: 13 }}>{pending.length} en attente</Text>
+        <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>{pending.length} en attente</Text>
       </View>
 
-      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" /> : (
+      {loading ? <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" /> : (
         <FlatList
           data={pending}
           keyExtractor={(item) => item.id}
@@ -34,7 +34,7 @@ export default function AdminDoctorsScreen() {
           renderItem={({ item }) => (
             <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 16, marginBottom: 12, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4, elevation: 2 }}>
               <View style={{ flexDirection: 'row', gap: 12, marginBottom: 12, alignItems: 'center' }}>
-                <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#e8f0fe', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#d1fae5', alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ fontSize: 24 }}>👨‍⚕️</Text>
                 </View>
                 <View style={{ flex: 1 }}>

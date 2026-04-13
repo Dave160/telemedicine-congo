@@ -102,7 +102,7 @@ export default function ChatScreen() {
       <View style={{ alignItems: isMe ? 'flex-end' : 'flex-start', marginBottom: 8 }}>
         <View style={{
           maxWidth: '78%',
-          backgroundColor: isMe ? '#1a73e8' : '#fff',
+          backgroundColor: isMe ? '#2db87a' : '#fff',
           borderRadius: 18,
           borderBottomRightRadius: isMe ? 4 : 18,
           borderBottomLeftRadius: isMe ? 18 : 4,
@@ -125,10 +125,10 @@ export default function ChatScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f0f4f8' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
 
       {/* Header */}
-      <View style={{ backgroundColor: '#1a73e8', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+      <View style={{ backgroundColor: '#2db87a', padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
         <TouchableOpacity onPress={() => router.back()} style={{ padding: 4 }}>
           <Text style={{ color: '#fff', fontSize: 24 }}>‹</Text>
         </TouchableOpacity>
@@ -137,12 +137,12 @@ export default function ChatScreen() {
         </View>
         <View style={{ flex: 1 }}>
           <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>Consultation</Text>
-          {typing && <Text style={{ color: '#b3d1ff', fontSize: 11 }}>en train d'écrire...</Text>}
+          {typing && <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 11 }}>en train d'écrire...</Text>}
         </View>
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           ref={flatListRef}
@@ -178,7 +178,7 @@ export default function ChatScreen() {
             style={{
               width: 44, height: 44,
               borderRadius: 22,
-              backgroundColor: input.trim() ? '#1a73e8' : '#e5e7eb',
+              backgroundColor: input.trim() ? '#2db87a' : '#e5e7eb',
               alignItems: 'center', justifyContent: 'center',
             }}
           >

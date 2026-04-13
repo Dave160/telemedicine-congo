@@ -31,7 +31,7 @@ export default function DoctorsScreen() {
         onPress={() => router.push(`/patient/doctor/${item.id}`)}
         style={{ backgroundColor: '#fff', borderRadius: 16, padding: 14, marginBottom: 10, flexDirection: 'row', alignItems: 'center', gap: 12, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4, elevation: 2 }}
       >
-        <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: '#e8f0fe', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: '#d1fae5', alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ fontSize: 24 }}>👨‍⚕️</Text>
         </View>
         <View style={{ flex: 1 }}>
@@ -40,7 +40,7 @@ export default function DoctorsScreen() {
             {item.isAvailableNow && <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: '#4ade80' }} />}
           </View>
           <Text style={{ color: '#777', fontSize: 13 }}>{item.specialite}</Text>
-          <Text style={{ color: '#1a73e8', fontWeight: '700', fontSize: 13, marginTop: 2 }}>{item.tarif?.toLocaleString()} FCFA</Text>
+          <Text style={{ color: '#2db87a', fontWeight: '700', fontSize: 13, marginTop: 2 }}>{item.tarif?.toLocaleString()} FCFA</Text>
         </View>
         <Text style={{ color: '#ccc', fontSize: 20 }}>›</Text>
       </TouchableOpacity>
@@ -49,8 +49,8 @@ export default function DoctorsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginBottom: 12 }}>Nos médecins</Text>
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <TextInput

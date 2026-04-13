@@ -22,8 +22,8 @@ export default function AdminPaymentsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Paiements</Text>
       </View>
 
@@ -34,15 +34,15 @@ export default function AdminPaymentsScreen() {
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#111' }}>{totalRevenue.toLocaleString()}</Text>
           <Text style={{ fontSize: 11, color: '#aaa' }}>FCFA</Text>
         </View>
-        <View style={{ flex: 1, backgroundColor: '#e8f0fe', borderRadius: 16, padding: 14, elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4, alignItems: 'center' }}>
-          <Text style={{ fontSize: 11, color: '#1a73e8', marginBottom: 4 }}>Commission</Text>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#1a73e8' }}>{totalFees.toLocaleString()}</Text>
+        <View style={{ flex: 1, backgroundColor: '#d1fae5', borderRadius: 16, padding: 14, elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4, alignItems: 'center' }}>
+          <Text style={{ fontSize: 11, color: '#2db87a', marginBottom: 4 }}>Commission</Text>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2db87a' }}>{totalFees.toLocaleString()}</Text>
           <Text style={{ fontSize: 11, color: '#93c5fd' }}>FCFA</Text>
         </View>
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 40 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 40 }} color="#2db87a" />
       ) : (
         <FlatList
           data={payments}
@@ -68,7 +68,7 @@ export default function AdminPaymentsScreen() {
                 </View>
                 <View style={{ flexDirection: 'row', gap: 12, borderTopWidth: 1, borderTopColor: '#f3f4f6', paddingTop: 8 }}>
                   <Text style={{ fontSize: 12, color: '#555' }}>Total : <Text style={{ fontWeight: '700', color: '#111' }}>{(item.amount || 0).toLocaleString()} FCFA</Text></Text>
-                  <Text style={{ fontSize: 12, color: '#555' }}>Comm. : <Text style={{ fontWeight: '700', color: '#1a73e8' }}>{(item.platformFee || 0).toLocaleString()} FCFA</Text></Text>
+                  <Text style={{ fontSize: 12, color: '#555' }}>Comm. : <Text style={{ fontWeight: '700', color: '#2db87a' }}>{(item.platformFee || 0).toLocaleString()} FCFA</Text></Text>
                 </View>
               </View>
             );

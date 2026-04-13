@@ -25,16 +25,16 @@ export default function DoctorEarningsScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f9fafb' }}>
-      <View style={{ height: 44, backgroundColor: '#1a73e8' }} />
-      <View style={{ backgroundColor: '#1a73e8', paddingHorizontal: 16, paddingBottom: 16 }}>
+      <View style={{ height: 44, backgroundColor: '#2db87a' }} />
+      <View style={{ backgroundColor: '#2db87a', paddingHorizontal: 16, paddingBottom: 16 }}>
         <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Mes revenus</Text>
       </View>
 
       {/* Summary */}
       <View style={{ flexDirection: 'row', gap: 12, padding: 16, paddingBottom: 8 }}>
-        <View style={{ flex: 1, backgroundColor: '#e8f0fe', borderRadius: 16, padding: 16, alignItems: 'center', elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4 }}>
-          <Text style={{ fontSize: 11, color: '#1a73e8', marginBottom: 4 }}>Ce mois</Text>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#1a73e8' }}>{monthlyEarned.toLocaleString()}</Text>
+        <View style={{ flex: 1, backgroundColor: '#d1fae5', borderRadius: 16, padding: 16, alignItems: 'center', elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4 }}>
+          <Text style={{ fontSize: 11, color: '#2db87a', marginBottom: 4 }}>Ce mois</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#2db87a' }}>{monthlyEarned.toLocaleString()}</Text>
           <Text style={{ fontSize: 10, color: '#93c5fd' }}>FCFA</Text>
         </View>
         <View style={{ flex: 1, backgroundColor: '#f0fdf4', borderRadius: 16, padding: 16, alignItems: 'center', elevation: 2, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 4 }}>
@@ -45,7 +45,7 @@ export default function DoctorEarningsScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator style={{ marginTop: 24 }} color="#1a73e8" />
+        <ActivityIndicator style={{ marginTop: 24 }} color="#2db87a" />
       ) : (
         <FlatList
           data={payments}
