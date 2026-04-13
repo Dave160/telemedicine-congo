@@ -1,9 +1,11 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// En développement Expo, utiliser l'IP de la machine hôte
-// En production, remplacer par l'URL réelle de l'API
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://10.0.2.2:3000'; // 10.0.2.2 = localhost pour émulateur Android
+// Priorité : variable d'env → fallback local
+// Pour Expo Go sur vrai téléphone : créer mobile/.env avec EXPO_PUBLIC_API_URL=http://IP_DE_VOTRE_PC:3000
+// Pour émulateur Android : http://10.0.2.2:3000
+// Pour émulateur iOS     : http://localhost:3000
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://10.0.2.2:3000';
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,

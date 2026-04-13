@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView,
-  Platform, ScrollView, Alert, ActivityIndicator
+  Platform, ScrollView, Alert, ActivityIndicator,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import useAuthStore from '../../stores/authStore';
+
+const PRIMARY = '#2db87a';
+const BG      = '#fff';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -31,31 +34,64 @@ export default function LoginScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1, backgroundColor: '#fff' }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, backgroundColor: BG }}
+    >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {/* Header */}
-        <View style={{ backgroundColor: '#1a73e8', paddingTop: 80, paddingBottom: 40, alignItems: 'center' }}>
-          <Text style={{ fontSize: 48 }}>🏥</Text>
-          <Text style={{ color: '#fff', fontSize: 24, fontWeight: 'bold', marginTop: 8 }}>TéléMéd Congo</Text>
-          <Text style={{ color: '#b3d1ff', fontSize: 13, marginTop: 4 }}>Santé accessible à tous</Text>
+        {/* Header gradient vert */}
+        <View style={{
+          backgroundColor: PRIMARY,
+          paddingTop: 80, paddingBottom: 50,
+          alignItems: 'center',
+          borderBottomLeftRadius: 28,
+          borderBottomRightRadius: 28,
+        }}>
+          {/* Logo croix médicale */}
+          <View style={{
+            width: 72, height: 72, borderRadius: 20,
+            backgroundColor: 'rgba(255,255,255,0.25)',
+            alignItems: 'center', justifyContent: 'center', marginBottom: 16,
+          }}>
+            <Text style={{ fontSize: 36 }}>⚕️</Text>
+          </View>
+          <Text style={{ color: '#fff', fontSize: 22, fontWeight: '800' }}>TéléMéd Congo</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: 13, marginTop: 4 }}>
+            Votre santé, notre priorité
+          </Text>
         </View>
 
         <View style={{ flex: 1, padding: 24 }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#111', marginBottom: 24 }}>Connexion</Text>
+          <Text style={{ fontSize: 20, fontWeight: '800', color: '#111', marginBottom: 6 }}>Connexion</Text>
+          <Text style={{ fontSize: 13, color: '#888', marginBottom: 28 }}>
+            Entrez vos identifiants pour continuer
+          </Text>
 
-          <Text style={{ fontSize: 13, fontWeight: '500', color: '#555', marginBottom: 6 }}>Téléphone</Text>
+          <Text style={{ fontSize: 13, fontWeight: '600', color: '#444', marginBottom: 6 }}>
+            Numéro de téléphone
+          </Text>
           <TextInput
-            style={{ borderWidth: 1.5, borderColor: '#e5e7eb', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 12, fontSize: 15, marginBottom: 16, backgroundColor: '#fff' }}
+            style={{
+              borderWidth: 1.5, borderColor: '#e5e7eb', borderRadius: 14,
+              paddingHorizontal: 16, paddingVertical: 13, fontSize: 15,
+              marginBottom: 16, backgroundColor: '#fff',
+            }}
             placeholder="+242 06 XXX XXXX"
             value={form.phone}
             onChangeText={(v) => setForm({ ...form, phone: v })}
             keyboardType="phone-pad"
           />
 
-          <Text style={{ fontSize: 13, fontWeight: '500', color: '#555', marginBottom: 6 }}>Mot de passe</Text>
+          <Text style={{ fontSize: 13, fontWeight: '600', color: '#444', marginBottom: 6 }}>
+            Mot de passe
+          </Text>
           <TextInput
-            style={{ borderWidth: 1.5, borderColor: '#e5e7eb', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 12, fontSize: 15, marginBottom: 24, backgroundColor: '#fff' }}
-            placeholder="••••••"
+            style={{
+              borderWidth: 1.5, borderColor: '#e5e7eb', borderRadius: 14,
+              paddingHorizontal: 16, paddingVertical: 13, fontSize: 15,
+              marginBottom: 28, backgroundColor: '#fff',
+            }}
+            placeholder="••••••••"
             value={form.password}
             onChangeText={(v) => setForm({ ...form, password: v })}
             secureTextEntry
@@ -64,14 +100,25 @@ export default function LoginScreen() {
           <TouchableOpacity
             onPress={handleLogin}
             disabled={loading}
-            style={{ backgroundColor: '#1a73e8', borderRadius: 12, paddingVertical: 14, alignItems: 'center', opacity: loading ? 0.7 : 1 }}
+            style={{
+              backgroundColor: PRIMARY, borderRadius: 999,
+              paddingVertical: 16, alignItems: 'center',
+              opacity: loading ? 0.7 : 1,
+            }}
           >
-            {loading ? <ActivityIndicator color="#fff" /> : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Se connecter</Text>}
+            {loading
+              ? <ActivityIndicator color="#fff" />
+              : <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>Se connecter →</Text>
+            }
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/auth/register')} style={{ marginTop: 20, alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => router.push('/auth/register')}
+            style={{ marginTop: 24, alignItems: 'center' }}
+          >
             <Text style={{ color: '#777', fontSize: 14 }}>
-              Pas encore inscrit ? <Text style={{ color: '#1a73e8', fontWeight: '600' }}>Créer un compte</Text>
+              Pas encore inscrit ?{' '}
+              <Text style={{ color: PRIMARY, fontWeight: '700' }}>Créer un compte</Text>
             </Text>
           </TouchableOpacity>
         </View>
